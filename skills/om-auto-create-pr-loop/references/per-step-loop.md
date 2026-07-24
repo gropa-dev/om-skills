@@ -14,4 +14,5 @@ The per-Step half of step 8. A Step is atomic: one Step = one code commit. Nothi
    - `feat(ui): add confirmation dialog primitive`
    - `test(ui): cover confirmation dialog focus trap`
 8. **Push** after every Step so `om-auto-continue-pr-loop` always has the latest state on the remote.
+   - **Step review (`engine.stepReview: per-step` only)** — after the push, review this Step's commit range per `references/step-review.md` before starting the next Step.
 9. **Do NOT** write a `step-<X.Y>-checks.md`. **Do NOT** rewrite `HANDOFF.md`. **Do NOT** append to `NOTIFY.md`, unless the Step produced a blocker, a scope decision worth recording, or a subagent delegation. Routine progress is inferred from the Tasks table and the commit log.
