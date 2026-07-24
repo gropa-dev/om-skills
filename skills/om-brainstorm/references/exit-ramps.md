@@ -26,3 +26,13 @@ The full routing table for `om-brainstorm`'s conclusion (workflow steps 4–5), 
 - **Never route to `om-root-cause` directly.** It is step 2 of the autofix chain, requires `{issueId}`, and expects the chain's checkout; `om-auto-fix-issue` runs it. A bug with no issue routes to ramp 2 (the issue carries the analysis) — or ramp 5 when the fix is obvious and small.
 - **Args embed the brief path.** The `— brief: <path>` suffix inside the args string is how the routed skill finds the resolved unknowns; the `Brief:` line repeats the path for orchestrators. Keep the path repo-relative and space-free (kebab-case slug) — the `Brief:` line is parsed as `\S+`.
 - **Repo-local ramps.** A repo-local extension may append rows routing to repo-specific skills (for example, a repository's own analysis or authoring skills). Added rows follow the same contract shape; the step-5 confirmation gate and the write restrictions stay.
+
+## Brief lifecycle
+
+The brief starts as an uncommitted file in the invoking checkout — `om-brainstorm` never commits (it is read-only plus this one write). Durability is the routed skill's job, and ingestion happens **before any worktree is created** — a worktree branched from `origin` does not contain the file:
+
+- `om-auto-create-pr` (ramp 5) reads the brief in the invoking checkout, copies it into its worktree at the same repo-relative path, includes it in the plan commit, and carries the Resolved-unknowns and Non-goals into the plan.
+- `om-auto-write-spec` and `om-spec-writing` (ramps 3–4) feed the brief to the spec: the Resolved-unknowns table pre-answers Open Questions (autonomous defaults apply only to what it leaves open), and the brief file is committed beside the spec.
+- `om-prepare-issue` (ramp 2) embeds the brief's content in the issue body — the tracker copy is the durable one; the local file carries nothing the issue does not.
+
+Either way the Resolved-unknowns table lands inside a committed or tracker-held artifact, so a resume from another machine never depends on the local file.

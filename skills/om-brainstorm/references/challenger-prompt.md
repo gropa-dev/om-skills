@@ -17,6 +17,7 @@ Focus areas:
 
 **Is the ramp right-sized?**
 - Does the conclusion match the next step — a full spec for what is actually a small change, or a quick change for what actually needs design?
+- Is this one independently deployable capability or a bundle? A bundle routed as one brief produces an unsplittable spec.
 - Would parking it as an issue lose anything that only exists in this conversation?
 
 **What was never tested?**

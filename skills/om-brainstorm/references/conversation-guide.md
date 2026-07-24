@@ -19,6 +19,7 @@ The ladder, in order: the repository (code, agent instruction files) → docs an
 - Generate two or three genuinely different alternatives, plus an explicit "do nothing / build nothing" option priced with its real consequences.
 - Name the riskiest assumption in the current favorite, and the cheapest way to test it.
 - Kill vague framing — a goal that cannot be stated specifically is not ready to route. The bar: "admin manages team" is vague; "admin invites by email and assigns a role; cannot delete users" is ready.
+- Run the bundling test early: does the idea contain more than one independently deployable capability (would each function without the other)? A bundle routes as its first slice; the rest become their own briefs or parked issues — never one giant brief.
 - Ask what breaks or gets worse if this succeeds (second-order effects: load, support, workflow collisions).
 
 ## Convergence checklist

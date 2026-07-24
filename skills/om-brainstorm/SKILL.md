@@ -1,6 +1,6 @@
 ---
 name: om-brainstorm
-description: Divergent conversation before any artifact exists — open questions one at a time, alternatives including building nothing, converging on a routing decision and a handoff brief for the next skill. Runs before om-spec-writing and om-prepare-issue. Use when the user says "should we build this", "let's think this through", "mam pomysł", "pomyślmy nad tym".
+description: Divergent conversation before any artifact exists — open questions one at a time, alternatives including building nothing, converging on a routing decision and a handoff brief for the next skill. Runs before om-spec-writing and om-prepare-issue. Use when the user says "should we build this", "let's think this through", "I have an idea", "is this worth doing".
 ---
 
 # Brainstorm
@@ -29,7 +29,7 @@ Do not edit repository files, write code, create specs or issues, or invoke any 
 
 5. **Confirm the routing (hard stop).** Present the conclusion type, the exact next-skill invocation, and what the brief will say. Wait for the user's confirmation.
 
-6. **Write the brief** (ramps 2–5 only) — `${SPECS_DIR}/briefs/{YYYY-MM-DD}-{slug}.md` from `references/brief-template.md`; kebab-case slug, no spaces. This is the only file the skill writes.
+6. **Write the brief** (ramps 2–5 only) — `${SPECS_DIR}/briefs/{YYYY-MM-DD}-{slug}.md` from `references/brief-template.md`; kebab-case slug, no spaces. This is the only file the skill writes, and it stays uncommitted — the routed skill makes it durable (commits it into its worktree, or embeds it in the issue) per the brief lifecycle in `references/exit-ramps.md`.
 
 7. **Report.** Fill `references/report-templates.md` and end with the Output contract lines. On ramp 1 the answer itself is the report body.
 
