@@ -26,7 +26,7 @@ Keep the full contract documented in the rest of the `SKILL.md` file: run folder
 A Simple run MAY be promoted to a Spec-implementation run mid-flight if the agent discovers the task is larger than it looked:
 
 - Stop the simple flow.
-- Draft the plan under `${RUNS_DIR}/<date>-<slug>/PLAN.md` (with Tasks table), `HANDOFF.md`, `NOTIFY.md`.
+- Draft the plan under `${RUNS_DIR}/<date>-<slug>/PLAN.md` (with Tasks table, including its `Exec` column), `HANDOFF.md`, `NOTIFY.md`.
 - Write a seed commit that adds these files.
 - Update the PR body to add `Tracking plan:` and `Status: in-progress` lines.
 - Continue under the full Spec-implementation contract from step 2 onwards.
