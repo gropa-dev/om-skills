@@ -7,7 +7,7 @@ analysis.
 ```markdown
 ## 🎨 UX review — <PR title>
 
-**Contract**: <.houserules/ found: framework, N tokens, N components | no contract — reviewed against tiers 2-6 only>
+**Contract**: <.uxproof/ found: framework, N tokens, N components | no contract — reviewed against tiers 2-6 only>
 **Screens walked**: <list, with viewport(s)>
 **Not walked**: <screens skipped and why — missing data, no permissions, broken env; never omit this line when coverage is partial>
 

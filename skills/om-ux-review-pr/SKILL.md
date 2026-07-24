@@ -36,7 +36,7 @@ posted as a PR comment, containing:
 
 Tag every claim with the strongest tier it honestly supports:
 
-1. `[PRODUCT]` — this repository's own contract (`.houserules/`), analytics,
+1. `[PRODUCT]` — this repository's own contract (`.uxproof/`), analytics,
    or documented decisions
 2. `[STANDARD]` — WCAG, platform guidelines, established norms (cite which)
 3. `[PLATFORM]` — default framework/OS behavior
@@ -49,7 +49,7 @@ mostly assumptions must say so in its summary.
 
 ## Workflow
 
-1. **Contract**: load `.houserules/contract.json` and `conventions.md`. If
+1. **Contract**: load `.uxproof/contract.json` and `conventions.md`. If
    absent, run the `om-ux-setup` skill first (or proceed contract-less and say
    so — tiers 2-6 still apply, tier 1 findings are impossible). When
    `UX_REVIEW.md` exists at the repo root, its rules extend the built-ins;

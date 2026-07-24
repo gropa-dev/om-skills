@@ -1,6 +1,6 @@
 ---
 name: om-ux-setup
-description: Extract the repository's design contract — tokens, component registry, screen archetypes, conventions — into .houserules/ so every UX skill reviews against THIS repo's design system, whatever it is. Run once per repository; re-run to refresh after design-system changes.
+description: Extract the repository's design contract — tokens, component registry, screen archetypes, conventions — into .uxproof/ so every UX skill reviews against THIS repo's design system, whatever it is. Run once per repository; re-run to refresh after design-system changes.
 ---
 
 # UX Setup — the design contract
@@ -17,7 +17,7 @@ rules: the audit stays disarmed until the team declares real tokens.
 
 ## What it writes
 
-`.houserules/` at the repository root, committed like code:
+`.uxproof/` at the repository root, committed like code:
 
 - `contract.json` — machine-readable summary: framework, styling system,
   component roots, native-element equivalents, screen archetypes with example
@@ -33,7 +33,7 @@ rules: the audit stays disarmed until the team declares real tokens.
 
 ## Procedure
 
-1. Check for an existing contract: if `.houserules/contract.json` exists, ask
+1. Check for an existing contract: if `.uxproof/contract.json` exists, ask
    whether to refresh (`sync`) or leave as is. Never regenerate silently —
    the manual section survives, but reviewers deserve to know the generated
    parts moved.
@@ -41,14 +41,14 @@ rules: the audit stays disarmed until the team declares real tokens.
    workflow, so the extractor installs the contract only):
 
    ```bash
-   npx houserules@latest init --no-skills
+   npx uxproof@latest init --no-skills
    ```
 
    If the repository cannot run npx (offline, policy), fall back to manual
    extraction: read the styling entrypoints (global CSS, tailwind config),
    list component directories, and write the same four files by hand following
    `references/contract-format.md`.
-3. Open `.houserules/conventions.md`, show the user the detected stack,
+3. Open `.uxproof/conventions.md`, show the user the detected stack,
    token/component counts and screen archetypes, and ask for 2-3 judgment
    calls only the team can know (naming rules, forbidden patterns, tone).
    Write them into the manual section.

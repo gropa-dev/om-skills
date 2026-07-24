@@ -62,7 +62,7 @@ Separate:
 
 Do not turn a provisional persona into evidence. Prioritize unknowns by decision risk, not curiosity.
 
-When the repository carries a design contract (`.houserules/` — see the
+When the repository carries a design contract (`.uxproof/` — see the
 `om-ux-setup` skill), load `contract.json` and `conventions.md` into the
 Known column: the registered components, screen archetypes and house rules
 are constraints on every direction you shape, and an existing archetype

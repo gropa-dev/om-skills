@@ -1,6 +1,6 @@
-# Contract format — .houserules/
+# Contract format — .uxproof/
 
-The manual-extraction fallback writes the same four files `npx houserules init`
+The manual-extraction fallback writes the same four files `npx uxproof init`
 generates. Shapes below are the minimum; extra fields are allowed.
 
 ## contract.json
@@ -31,9 +31,9 @@ Human-readable house rules with generated sections (stack, tokens, components,
 screen shapes) and a fenced manual section:
 
 ```markdown
-<!-- houserules:manual-start -->
+<!-- uxproof:manual-start -->
 The team's judgment calls live here and survive regeneration.
-<!-- houserules:manual-end -->
+<!-- uxproof:manual-end -->
 ```
 
 The manual section is the local-override surface for every UX skill: it
