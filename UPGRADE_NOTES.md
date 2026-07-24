@@ -14,6 +14,10 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-24 — plain create-PR runs self-escalate to the loop engine
+
+`om-auto-create-pr` now routes itself: with `--loop`, or when its drafted plan exceeds `engine.loopStepThreshold` Steps (new optional config key, default 20 — the previously hard-coded rule), it hands the run to `om-auto-create-pr-loop`. Briefs that used to run plain past 20 Steps now produce a run folder with per-step commits; raise `engine.loopStepThreshold` in `.ai/agentic.config.json` to keep more runs plain. Existing configs need no migration — the missing key defaults to the old threshold.
+
 ## 2026-07-23 — review autofix opt-in, atomic spec PRs, templated reporting
 
 - **`om-auto-review-pr` no longer autofixes other authors' PRs by default.** The autofix loop runs only when the PR author is the automation identity or `--autofix` was passed; otherwise the run ends with the review, labels, and author handoff. Chains that exist to fix (`om-auto-fix-pr`, `om-auto-fix-issue`) now pass `--autofix` explicitly; `om-review-prs` sweeps review-only. If your flow relied on the old always-autofix behavior, add `--autofix`.
