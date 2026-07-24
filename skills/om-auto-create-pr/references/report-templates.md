@@ -15,6 +15,7 @@ carries the meaning. The PR summary comment has its own template:
 **PR:** #{number} ({url}) — {flipped to ready for review | left a draft because the run is unfinished}, opened against the configured base branch.
 **Branch:** `{branch}` — {one sentence: why `fix/` or `feat/` was chosen for this work}
 **Plan:** `{RUNS_DIR}/{DATE}-{SLUG}.md` — {one sentence: what the plan covers; its Progress checklist is what `om-auto-continue-pr` resumes from}
+**Engine:** `Engine: <name> (steps: <N>, --loop: <yes|no>)` — the exact shape from `references/engine-selection.md`, never reworded; on a handoff this report relays the `om-auto-create-pr-loop` report with this line prefixed.
 
 ### 🎯 Goal & scope
 {Short paragraph: the goal in one sentence, the Phases implemented, the notable autonomous decisions made along the way, and any explicit Non-goals deliberately left untouched.}
