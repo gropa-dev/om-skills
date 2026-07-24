@@ -49,7 +49,7 @@ Rules:
 ### Filling `Exec` and the tier
 
 - `dispatch` — the default for Spec-implementation Steps: the Step is independent, and its bullets + spec anchors are complete enough for a fresh session to implement without the planning conversation.
-- `inline` — the Step needs the main session's accumulated context or an execution-time judgment call; or the whole run has ≤2 Steps; or the Step is so trivial that executor overhead exceeds the work.
+- `inline` — the Step needs the main session's accumulated context or an execution-time judgment call, or the Step is so trivial that executor overhead exceeds the work. Short Spec-implementation runs may still dispatch independent, fully specified Steps; only Simple runs categorically never dispatch.
 - `group:<id>` — adjacent Steps so coupled that separate executors would each re-derive the same context (shared scaffolding, one design carried across); still one commit per Step.
 - Tier: `:cheap` when the Step is mechanical transcription of a complete spec (boilerplate, renames, applying a documented pattern, tests from an existing example); omit (= the configured default) for typical implementation; `:capable` for cross-cutting integration or design judgment inside the Step.
 - Rows appended mid-run (`X.Y-review-fix`, `X.Y-ds-fix`) fill `Exec` when appended — usually `inline`, since the main session already holds the review context.
