@@ -7,7 +7,7 @@ One Step = one code commit. Nothing more.
 3. Run a quick scratch sanity check (typecheck + new test file, or the closest configured equivalent) to confirm the Step compiles. Do NOT record this anywhere — checkpoints verify.
 4. Re-read the diff to remove scope creep.
 5. Re-check changed production files against the project's data-access and security conventions from its agent instruction files; fix violations before committing.
-6. **Flip the Tasks-table row in the same commit.** In `PLAN.md`'s `## Tasks` table, flip the Step's `Status` cell from `todo` to `done` and fill the `Commit` column with the short SHA (amend the commit to capture the real SHA before pushing).
+6. **Flip the Tasks-table row in the same commit.** In `PLAN.md`'s `## Tasks` table, flip the Step's `Status` cell from `todo` to `done` and fill the `Commit` column with the short SHA (amend the commit to capture the real SHA before pushing). Do not reorder rows, do not rename titles, do not change `Exec` cells — per-Step commits touch only `Status` and `Commit`.
 7. **Commit** with a conventional-commit message for that single Step. No separate docs-flip commit.
 8. **Push** after the commit so the remote always has the latest state.
 9. **Do NOT** write a `step-<X.Y>-checks.md`. **Do NOT** create a `step-<X.Y>-artifacts/` folder. **Do NOT** rewrite `HANDOFF.md` at the per-Step level. **Do NOT** append to `NOTIFY.md` unless the Step produced a blocker, a scope decision, or a subagent delegation.
