@@ -71,6 +71,8 @@ Verification the main session MUST run after each executor returns — before di
 - Local HEAD == `origin/{branch}` (push actually landed; fetch if in doubt).
 - The PLAN.md Tasks-table row for each dispatched Step is flipped to `done` with the correct short SHA in the `Commit` column.
 
+When `engine.stepReview` is `per-step`, the main session reviews each dispatched Step's commit range per `references/step-review.md` after this verification passes, before dispatching the next Step (a group executor's Steps are reviewed as one range).
+
 Every 5 successfully landed Steps (a group counts each member Step; or when a Phase with ≥3 Steps closes), the main session MUST run a full **checkpoint pass** per step 6b (`references/checkpoint-pass.md`) before dispatching the next Step.
 
 ## Escalation before the stop

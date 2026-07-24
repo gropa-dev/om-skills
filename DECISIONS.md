@@ -188,6 +188,10 @@ The loop skills' executor-dispatch trigger ("many Steps SHOULD dispatch") was a 
 
 The plain-vs-loop decision moved from `om-auto-implement-spec` into `om-auto-create-pr` itself: the engine drafts its execution plan, counts the Steps, and hands off to `om-auto-create-pr-loop` when `--loop` was passed or the count exceeds the new `engine.loopStepThreshold` config key (default 20, previously hard-coded). A bare brief now escalates exactly like a spec run, and the orchestrators only forward `--loop` and pick create-vs-continue — on resume the run's artifact format (`Tracking plan:` file vs `Tracking run folder:`) selects the continue engine, never a re-applied count, since the plan format is fixed at creation. The canonical rule moved to `om-auto-create-pr/references/engine-selection.md`, owned by the skill that executes it.
 
+## 2026-07-24 — Review granularity is a config decision (engine.stepReview)
+
+The loop engines code-reviewed once, at the end of the run — so on a long run an early defect survives until the final review while later Steps build on it, and unwinding it then costs more than catching it near the Step that introduced it. `engine.stepReview` makes the detection latency a team decision: `final` (default — exactly today's behavior and cost), `checkpoint` (review the diff at every checkpoint pass, detection within ~5 Steps), `per-step` (review each Step's commit as it lands, for high-risk work). Mid-run reviews are scoped diffs judged against the `om-code-review` checklist without its full validation gate (scoped validation already ran; the full gate stays at checkpoints and the final gate); blocker/major findings are fixed immediately as `X.Y-review-fix` Steps in a bounded 2-round loop, minors defer. The authoritative end-of-run review pass is unchanged in every mode — step review is an internal gate that posts nothing to the tracker, so the PR review surface stays single-sourced.
+
 ## Deferred
 
 - A bespoke `npx open-mercato-skills` installer CLI. skills.sh covers installation in v1.

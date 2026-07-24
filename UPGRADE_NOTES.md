@@ -14,6 +14,11 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-24 — configurable review granularity in the loop engines (`engine.stepReview`)
+
+- New optional config key `engine.stepReview`: `final` (default — only the authoritative end-of-run review, today's behavior), `checkpoint` (review the diff landed since the previous checkpoint at every checkpoint pass), `per-step` (review each Step's commit range as it lands). Mid-run blocker/major findings are fixed immediately as `X.Y-review-fix` Steps in a bounded loop; minors defer to the final review, which runs in every mode and remains the only review posted to the PR.
+- Additive — existing configs keep `final` and their exact current behavior and cost. `per-step` multiplies review cost by the Step count; `checkpoint` is the middle ground.
+
 ## 2026-07-24 — Tasks table gains an `Exec` column (executor placement + model tier)
 
 - `om-auto-create-pr-loop` now writes a sixth Tasks-table column: `| Phase | Step | Title | Exec | Status | Commit |`. `Exec` fixes, per Step and at planning time, whether it runs inline, is dispatched to an executor subagent, or is grouped with adjacent coupled Steps — optionally suffixed with an abstract model tier (`:cheap` / `:standard` / `:capable`).
