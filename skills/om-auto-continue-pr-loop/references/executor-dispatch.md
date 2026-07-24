@@ -73,13 +73,17 @@ Verification the main session MUST run after each executor returns — before di
 
 Every 5 successfully landed Steps (a group counts each member Step; or when a Phase with ≥3 Steps closes), the main session MUST run a full **checkpoint pass** per step 6b (`references/checkpoint-pass.md`) before dispatching the next Step.
 
-Safety stops — the main session MUST halt dispatch (leave `Status: in-progress`, rewrite `HANDOFF.md`, append a NOTIFY entry naming the blocker, release the lock, and report back) when any of the following is true:
+## Escalation before the stop
 
-- An executor returns a blocker, failing tests, or an error.
+A problematic executor result — a returned blocker, failing tests, an error, or a failed post-executor verification — gets **one rescue attempt** before the safety stops fire: restore a clean worktree state (discard the failed executor's uncommitted leftovers; committed prior Steps are never touched), then dispatch a **fresh executor for the same Step one tier above** the failed one (`cheap` → `standard`, `standard` → `capable`), with the failed executor's report and the concrete failure appended to its prompt. The rescue result goes through the same post-executor verification. Escalation is bounded: one rescue per Step, never above `capable` — a Step that already ran at `capable`, or whose rescue also fails, halts per the safety stops below. Append a NOTIFY delegation entry for every rescue, naming both tiers and the failure it answers.
+
+Safety stops — the main session MUST halt dispatch (leave `Status: in-progress`, rewrite `HANDOFF.md`, append a NOTIFY entry naming the blocker, release the lock, and report back) when, after the one rescue attempt above where applicable, any of the following is true:
+
+- An executor returns a blocker, failing tests, or an error — and its rescue also failed or was unavailable.
 - `git status` is not clean after an executor returns.
 - The Tasks-table row was not flipped to `done` with the correct SHA.
 - Local HEAD ≠ `origin/{branch}` (push did not land).
-- Two consecutive executors returned problematic results.
+- Two consecutive Steps needed a rescue, even when both rescues landed.
 - **Safety checkpoint:** after ~20 consecutive successful Steps, stop and let the user review before plowing on.
 
 The creator counterpart (`om-auto-create-pr-loop`) inherits this pattern when driving multiple Steps in a single invocation.

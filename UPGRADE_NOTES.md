@@ -20,6 +20,7 @@ against them — not against the copies shipped in this repo:
 - **Committed old plans keep working.** `om-auto-continue-pr-loop` parses five-column tables exactly as before, applies the legacy dispatch heuristic, and never rewrites a committed table to add the column.
 - **Old installed skills against new plans:** resume-point parsing keys on the `Status`/`Step` columns and still resolves; a pre-upgrade skill copy simply ignores the placement data. Re-run `npx skills add open-mercato/skills --skill '*'` to get plan-driven dispatch.
 - New optional config key `engine.executorTier` (default `standard`) sets the tier when a dispatched Step's cell names none. Additive — existing `.ai/agentic.config.json` files need no change; tiers are ignored entirely on harnesses without subagent model selection.
+- A problematic executor result now gets **one rescue attempt** — a fresh executor one tier above, carrying the failure report — before the safety stops halt the run. Runs that previously parked on a single failed executor may now finish; the halt behavior is unchanged when the rescue also fails, the Step already ran at `capable`, or two consecutive Steps needed rescuing.
 
 ## 2026-07-23 — review autofix opt-in, atomic spec PRs, templated reporting
 
