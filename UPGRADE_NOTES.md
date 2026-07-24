@@ -14,6 +14,12 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-25 — New skill: om-brainstorm (the conversation before the pipeline)
+
+- **New skill:** `om-brainstorm` — interactive, read-only divergent conversation for a vague idea or plain question, converging on a user-confirmed routing decision into the pipeline (park as issue, autonomous spec, interactive spec, direct PR, or an existing issue) plus a handoff brief under `${SPECS_DIR}/briefs/`.
+- **New additive marker lines** at the end of its final report: `Next: none` | `Next: om-<skill> <args>` and `Brief: <repo-relative path>` — parsed by session orchestrators to route the follow-up run. No existing consumer changes; nothing to migrate.
+- Install via `npx skills add open-mercato/skills --skill om-brainstorm` (or `--skill '*'`).
+
 ## 2026-07-24 — configurable review granularity in the loop engines (`engine.stepReview`)
 
 - New optional config key `engine.stepReview`: `final` (default — only the authoritative end-of-run review, today's behavior), `checkpoint` (review the diff landed since the previous checkpoint at every checkpoint pass), `per-step` (review each Step's commit range as it lands). Mid-run blocker/major findings are fixed immediately as `X.Y-review-fix` Steps in a bounded loop; minors defer to the final review, which runs in every mode and remains the only review posted to the PR.
