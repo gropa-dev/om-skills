@@ -33,6 +33,7 @@ Every skill in this collection reads its repository-specific settings from `.ai/
     "risk": ["risk-low", "risk-medium", "risk-high"]
   },
   "qaGate": true,
+  "engine": { "executorTier": "standard" },
   "paths": {
     "runs": ".ai/runs",
     "analysis": ".ai/analysis",
@@ -57,6 +58,7 @@ Field reference:
 - `labels.priority` — mutually exclusive urgency of the work. Unset is treated as medium.
 - `labels.risk` — mutually exclusive blast radius of the change. Unset is treated as medium. Priority is how urgent the work is; risk is how dangerous the change is to ship.
 - `qaGate` — when `true`, a PR carrying `needs-qa` must not merge until it also carries `qa-approved`, even when every other check is green. When `false`, `needs-qa` is advisory only.
+- `engine.executorTier` — optional; the default abstract model tier (`cheap` / `standard` / `capable`) for executor subagents dispatched by the loop skills when a Tasks-table `Exec` cell names none. Harnesses that support subagent model selection map the tier onto their closest model class; others ignore it. Configs without the key behave as `standard`.
 - `paths.runs` — where execution plans of autonomous runs are stored.
 - `paths.analysis` — where generated reports are stored.
 - `paths.specs` — where feature specifications live (default `.ai/specs`). Spec filenames follow `{YYYY-MM-DD}-{kebab-case-title}.md`. `om-spec-writing` writes here, `om-prepare-issue` links from here, and `om-followup-issue-from-pr` checks here first in design-doc mode.
