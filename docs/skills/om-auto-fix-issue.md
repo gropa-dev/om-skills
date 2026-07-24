@@ -13,6 +13,7 @@ Takes a tracker issue (a GitHub issue by default) from a single command all the 
 | `--interactive` | No | Feature route only: opt into human gates so the spec is written with interactive Open Questions stops instead of autonomous defaults. |
 | `--slug <kebab-case>` | No | Feature route only: override the derived slug (passed through to delegated skills). |
 | `--no-ui` | No | Feature route only: skip end-of-run UI verification. |
+| `--loop` | No | Feature route only: forwarded verbatim to `om-auto-implement-spec` when the user passed it; the route never adds it on its own. |
 | `--force` | No | Bypass the in-progress concurrency check; use only when intentionally taking over an issue another actor claimed. |
 
 ## Works with

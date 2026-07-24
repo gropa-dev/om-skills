@@ -2,7 +2,7 @@
 
 > 🤖 Autonomous — runs end-to-end without supervision
 
-The advanced variant of `om-auto-create-pr`, for long, multi-step spec implementations that need resumability and strict step tracking. It creates a run folder under the configured runs directory containing `PLAN.md` (a Tasks table plus plan), `HANDOFF.md`, and `NOTIFY.md`, implements one lean commit per task-table Step in an isolated worktree, and batches verification into `checkpoint-<N>-checks.md` every ~5 Steps — running focused integration tests and capturing screenshots when UI was touched. At spec completion it runs the full validation gate plus the repo's integration suite and any style-compliance pass, then opens a labeled PR against the configured base branch. The run is resumable via `om-auto-continue-pr-loop`; for small fixes, use the plain `om-auto-create-pr`.
+The advanced variant of `om-auto-create-pr`, for long, multi-step spec implementations that need resumability and strict step tracking. It creates a run folder under the configured runs directory containing `PLAN.md` (a Tasks table plus plan), `HANDOFF.md`, and `NOTIFY.md`, implements one lean commit per task-table Step in an isolated worktree, and batches verification into `checkpoint-<N>-checks.md` every ~5 Steps — running focused integration tests and capturing screenshots when UI was touched. At spec completion it runs the full validation gate plus the repo's integration suite and any style-compliance pass, then opens a labeled PR against the configured base branch. The run is resumable via `om-auto-continue-pr-loop`; for small fixes, use the plain `om-auto-create-pr` — which escalates here automatically when a drafted plan exceeds the configured Step threshold.
 
 ## Parameters
 
