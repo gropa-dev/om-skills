@@ -12,6 +12,9 @@ The pipeline gives you a written spec with visuals attached: UI mockups of the p
 | [`om-auto-write-spec`](../skills/om-auto-write-spec.md) | Spec a brand-new surface | `/om-auto-write-spec "Onboarding wizard for first-time merchants"` | a spec PR with proposed-flow mockups |
 | [`om-auto-implement-spec`](../skills/om-auto-implement-spec.md) | See the design built | `/om-auto-implement-spec 2026-07-18-checkout-redesign` | the change implemented with before/after screenshots from the working app |
 | [`om-auto-qa-pr`](../skills/om-auto-qa-pr.md) | Check the UI on an open PR | `/om-auto-qa-pr 123` | screenshots of the changed flow + a pass/fail report on the PR |
+| [`om-ux-shape`](../skills/om-ux-shape.md) | Decide before drawing | `/om-ux-shape "Quick-add flow for the people list"` | a decided direction: smallest coherent scope, interaction contract, riskiest-assumption test |
+| [`om-ux-setup`](../skills/om-ux-setup.md) | Make the design system executable | `/om-ux-setup` | the repo's design contract in `.houserules/` — tokens, components, screen archetypes, team rules |
+| [`om-ux-review-pr`](../skills/om-ux-review-pr.md) | Judge a PR's UI, not just see it | `/om-ux-review-pr 123` | a design review: findings ranked by user impact, each with evidence, a pattern, a trade-off and a done-when |
 
 ## What happens automatically
 
@@ -28,3 +31,5 @@ The pipeline gives you a written spec with visuals attached: UI mockups of the p
 - No browser provider set up yet? Run `/om-prepare-test-env` first, or ask QA to — otherwise the spec degrades to text-only with no screenshots.
 - Reply on the assumptions comment to steer the design; the autonomous defaults exist to be corrected.
 - Use `/om-auto-qa-pr 123` any time to pull fresh screenshots of a PR's UI without touching source or labels.
+- Run `/om-ux-setup` once per repo before the first design review — contract-grounded findings ("this repo already has a component for that") beat generic best practices.
+- `/om-auto-qa-pr` captures the evidence; `/om-ux-review-pr` judges it. Use both on UI-heavy PRs.

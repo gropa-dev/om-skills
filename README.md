@@ -8,7 +8,7 @@
 
 <p align="center">
   <b>🧠 plan · 🔨 implement · 🔍 review · ✅ QA gate · 🚢 merge</b><br/>
-  Thirty agent skills that run a full PR pipeline. Install them into any repo, with any coding agent.
+  Thirty-three agent skills that run a full PR pipeline. Install them into any repo, with any coding agent.
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@ These skills wrote and shipped a real product. Inside the [Open Mercato](https:/
 npx skills add open-mercato/skills --skill '*'
 ```
 
-Install all thirty — the pipeline composes, and every skill is small until invoked. Drop `--skill '*'` to cherry-pick interactively. Skills install for 22+ coding agents (Claude Code, Cursor, Codex, and others) via [skills.sh](https://skills.sh).
+Install all thirty-three — the pipeline composes, and every skill is small until invoked. Drop `--skill '*'` to cherry-pick interactively. Skills install for 22+ coding agents (Claude Code, Cursor, Codex, and others) via [skills.sh](https://skills.sh).
 
 Then, once per repository:
 
@@ -203,6 +203,8 @@ Get a written spec with visuals attached — mockups of the new layout next to s
 | `/om-auto-write-spec "Redesign the checkout summary panel"` | `om-spec-writing --autonomous`, [`om-open-pr`](docs/skills/om-open-pr.md), [`om-prepare-test-env`](docs/skills/om-prepare-test-env.md) + browser provider | a ready spec PR with UI mockups, current-app screenshots, and an assumptions comment |
 | `/om-auto-implement-spec 2026-07-18-checkout-redesign` | [`om-auto-create-pr`](docs/skills/om-auto-create-pr.md), [`om-auto-review-pr`](docs/skills/om-auto-review-pr.md), [`om-auto-qa-pr`](docs/skills/om-auto-qa-pr.md) | the built change with before/after screenshots from the working app |
 | `/om-auto-qa-pr 123` | [`om-prepare-test-env`](docs/skills/om-prepare-test-env.md), browser provider | fresh screenshots of a PR's UI to design-review, no source touched |
+| `/om-ux-setup` once, then `/om-ux-review-pr 123` | [`om-ux-setup`](docs/skills/om-ux-setup.md) extracts the repo's design contract; [`om-ux-review-pr`](docs/skills/om-ux-review-pr.md) walks the PR in a real browser | a design review judged against your own design system: evidence-tagged findings with done-when criteria |
+| `/om-ux-shape "Quick-add flow for the people list"` | [`om-ux-shape`](docs/skills/om-ux-shape.md) | a decided direction before anything is drawn: scope, states, riskiest-assumption test |
 
 💡 Tip — ask for visuals explicitly to force mockups: `/om-auto-write-spec "Redesign the checkout summary panel — include mockups of the new layout and screenshots of the current one"`.
 
