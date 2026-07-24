@@ -14,6 +14,13 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-24 — Tasks table gains an `Exec` column (executor placement + model tier)
+
+- `om-auto-create-pr-loop` now writes a sixth Tasks-table column: `| Phase | Step | Title | Exec | Status | Commit |`. `Exec` fixes, per Step and at planning time, whether it runs inline, is dispatched to an executor subagent, or is grouped with adjacent coupled Steps — optionally suffixed with an abstract model tier (`:cheap` / `:standard` / `:capable`).
+- **Committed old plans keep working.** `om-auto-continue-pr-loop` parses five-column tables exactly as before, applies the legacy dispatch heuristic, and never rewrites a committed table to add the column.
+- **Old installed skills against new plans:** resume-point parsing keys on the `Status`/`Step` columns and still resolves; a pre-upgrade skill copy simply ignores the placement data. Re-run `npx skills add open-mercato/skills --skill '*'` to get plan-driven dispatch.
+- New optional config key `engine.executorTier` (default `standard`) sets the tier when a dispatched Step's cell names none. Additive — existing `.ai/agentic.config.json` files need no change; tiers are ignored entirely on harnesses without subagent model selection.
+
 ## 2026-07-23 — review autofix opt-in, atomic spec PRs, templated reporting
 
 - **`om-auto-review-pr` no longer autofixes other authors' PRs by default.** The autofix loop runs only when the PR author is the automation identity or `--autofix` was passed; otherwise the run ends with the review, labels, and author handoff. Chains that exist to fix (`om-auto-fix-pr`, `om-auto-fix-issue`) now pass `--autofix` explicitly; `om-review-prs` sweeps review-only. If your flow relied on the old always-autofix behavior, add `--autofix`.
