@@ -34,9 +34,10 @@ a. **Resolve the spec** — follow the spec-resolution procedure in
 b. **Spec found** (a path, or the spec-only `SPEC_PR` from F2) → invoke
    **`om-auto-implement-spec {SPEC_PATH-or-SPEC_PR} [--no-ui] [--loop] [--force]`** verbatim.
    Include `--loop` **only when the user passed it to `om-auto-fix-issue`** — never
-   add it on your own; without it the plain engines are the default and the loop
-   variants are selected solely by `om-auto-implement-spec`'s >20-Step rule
-   (its engine selection). The spec PR stays design-only: it implements on a
+   add it on your own; without it the plain engines are the default and
+   `om-auto-create-pr` escalates to the loop on its own when the drafted plan
+   exceeds the configured Step threshold (`engine.loopStepThreshold`, default 20).
+   The spec PR stays design-only: it implements on a
    **separate implementation PR** that references the spec (`Refs #{SPEC_PR}` +
    `Source doc:`), resuming an existing implementation PR rather than opening a
    second, runs the review autofix loop and UI verification with screenshots, and
