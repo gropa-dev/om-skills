@@ -14,6 +14,29 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-25 — New skill: om-brainstorm (the conversation before the pipeline)
+
+- **New skill:** `om-brainstorm` — interactive, read-only divergent conversation for a vague idea or plain question, converging on a user-confirmed routing decision into the pipeline (park as issue, autonomous spec, interactive spec, direct PR, or an existing issue) plus a handoff brief under `${SPECS_DIR}/briefs/`.
+- **New additive marker lines** at the end of its final report: `Next: none` | `Next: om-<skill> <args>` and `Brief: <repo-relative path>` — parsed by session orchestrators to route the follow-up run. No existing consumer changes; nothing to migrate.
+- Install via `npx skills add open-mercato/skills --skill om-brainstorm` (or `--skill '*'`).
+
+## 2026-07-24 — configurable review granularity in the loop engines (`engine.stepReview`)
+
+- New optional config key `engine.stepReview`: `final` (default — only the authoritative end-of-run review, today's behavior), `checkpoint` (review the diff landed since the previous checkpoint at every checkpoint pass), `per-step` (review each Step's commit range as it lands). Mid-run blocker/major findings are fixed immediately as `X.Y-review-fix` Steps in a bounded loop; minors defer to the final review, which runs in every mode and remains the only review posted to the PR.
+- Additive — existing configs keep `final` and their exact current behavior and cost. `per-step` multiplies review cost by the Step count; `checkpoint` is the middle ground.
+
+## 2026-07-24 — Tasks table gains an `Exec` column (executor placement + model tier)
+
+- `om-auto-create-pr-loop` now writes a sixth Tasks-table column: `| Phase | Step | Title | Exec | Status | Commit |`. `Exec` fixes, per Step and at planning time, whether it runs inline, is dispatched to an executor subagent, or is grouped with adjacent coupled Steps — optionally suffixed with an abstract model tier (`:cheap` / `:standard` / `:capable`).
+- **Committed old plans keep working.** `om-auto-continue-pr-loop` parses five-column tables exactly as before, applies the legacy dispatch heuristic, and never rewrites a committed table to add the column.
+- **Old installed skills against new plans:** resume-point parsing keys on the `Status`/`Step` columns and still resolves; a pre-upgrade skill copy simply ignores the placement data. Re-run `npx skills add open-mercato/skills --skill '*'` to get plan-driven dispatch.
+- New optional config key `engine.executorTier` (default `standard`) sets the tier when a dispatched Step's cell names none. Additive — existing `.ai/agentic.config.json` files need no change; tiers are ignored entirely on harnesses without subagent model selection.
+- A problematic executor result now gets **one rescue attempt** — a fresh executor one tier above, carrying the failure report — before the safety stops halt the run. Runs that previously parked on a single failed executor may now finish; the halt behavior is unchanged when the rescue also fails, the Step already ran at `capable`, or two consecutive Steps needed rescuing.
+
+## 2026-07-24 — plain create-PR runs self-escalate to the loop engine
+
+`om-auto-create-pr` now routes itself: with `--loop`, or when its drafted plan exceeds `engine.loopStepThreshold` Steps (new optional config key, default 20 — the previously hard-coded rule), it hands the run to `om-auto-create-pr-loop`. Briefs that used to run plain past 20 Steps now produce a run folder with per-step commits; raise `engine.loopStepThreshold` in `.ai/agentic.config.json` to keep more runs plain. Existing configs need no migration — the missing key defaults to the old threshold.
+
 ## 2026-07-23 — review autofix opt-in, atomic spec PRs, templated reporting
 
 - **`om-auto-review-pr` no longer autofixes other authors' PRs by default.** The autofix loop runs only when the PR author is the automation identity or `--autofix` was passed; otherwise the run ends with the review, labels, and author handoff. Chains that exist to fix (`om-auto-fix-pr`, `om-auto-fix-issue`) now pass `--autofix` explicitly; `om-review-prs` sweeps review-only. If your flow relied on the old always-autofix behavior, add `--autofix`.

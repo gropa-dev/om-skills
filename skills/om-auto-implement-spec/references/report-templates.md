@@ -21,7 +21,8 @@ engine owned (worktree, commits, validation gate, labels, review loop).}
 ```
 
 Inside the ⚙️ Engine section, state the selection decision on its own line in
-the exact shape defined by `references/engine-selection.md` — never reworded:
+the exact shape defined by the `om-auto-create-pr` skill's engine selection,
+relayed verbatim from the engine's report — never reworded:
 
 ```text
 Engine: <name> (steps: <N>, --loop: <yes|no>)
