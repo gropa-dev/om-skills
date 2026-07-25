@@ -55,6 +55,8 @@ matching enforceable checks in CODE_REVIEW.md.
 
 ## Progress
 
+PR: #61
+
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles.
 
 ### Phase 1: AGENTS.md authoring standards
