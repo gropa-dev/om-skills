@@ -23,6 +23,60 @@ These invariants make the auto skills composable; every new or edited skill must
 4. **Dependencies = invocation, files = own copies.** Skills compose by invoking each other **by name**; there is no install-time dependency mechanism. Every cross-skill call either has an inline fallback so the skill works standalone (preferred — documented in the skill's own `references/pr-finalize.md` for PR opening) or stops cleanly naming the missing skill (`om-setup-agent-pipeline`'s coverage check prints the install command for anything missing). A skill never points into another skill's `references/` directory — the one exception is `om-apply-upgrade-notes`, whose job is reading the shipped descriptor templates in `om-setup-agent-pipeline/references/trackers|browsers/`.
 5. **Standard step files, duplicated per skill — and kept in sync by asking.** Repeatable steps live in each skill's own `references/` under standard names: `agentic-setup.md` (config load + repo-local override contract + untrusted-content boundary), `worktree-setup.md`, `claim-pr.md`, `pr-finalize.md` (open/reuse, labels, body + summary templates, markers), `review-report.md`, `report-templates.md` (the skill's user-facing report/comment templates — emoji-structured, full-sentence), `rules.md` (shared rules incl. the emoji glossary, label commentary, and reporting style). Every skill has its **own copy** so it installs standalone; `om-auto-create-pr` holds the canonical text; a skill only carries the files for steps it actually performs, and skill-specific behavior goes under a marked "specifics" section, not into the shared part. The deliberate cost is duplication, managed by this binding rule: **whenever you edit one of these standard files (or the shared part of a step) in any skill, diff the same file in the other skills and ask the user whether to sync the change across them — list the skills that would change.** SKILL.md itself keeps only the numbered main algorithm with direct instructions; repeatable detail stays behind `references/<step>.md` so unused steps cost no tokens.
 
+## Skill authoring standards
+
+Three standards every skill in this collection follows. They are the coding
+standards for skill documents: a new skill that ignores them is not done, and a
+reviewer rejects a PR that breaks them (`CODE_REVIEW.md` carries the matching
+checks). Each has one canonical source — this section distills the rule and
+points there; **never re-explain the detail here**, or the copy drifts.
+
+1. **Token economy — granulate into `references/`.** A skill pays layer-2 tokens
+   (the `SKILL.md` body) on *every* invocation and layer-3 tokens (a
+   `references/<name>.md` file) only when the body points to it. So the body is a
+   **router + map**, not the terrain: keep the numbered main algorithm and the
+   premises that pick a branch; push per-branch detail, output/report templates,
+   reference tables over ~15 rows, and conditional (`if fork`, `if --stop`)
+   sections down into `references/`. Safety always loads on every run — the
+   untrusted-content boundary, no-exfiltration, and QA gates live in the body or
+   the step-0 `references/agentic-setup.md` the body loads first, never behind a
+   lazy conditional. Don't over-split either: skills under ~150 lines usually stay
+   whole, and a step describable in three lines stays three lines. The readability
+   test is the gate — after the split, the body alone must still tell **what** the
+   skill does, **in what order**, and **where** to find detail. Canonical source
+   and the up/down decision procedure: `skills/om-create-skill/references/philosophy.md`;
+   the enforced completeness/readability gate: `skills/om-create-skill/references/gates.md`.
+
+2. **Coherent communication templates.** User-facing output — final reports,
+   review bodies, PR/issue comments — is a **deliverable, not a log**: complete
+   sentences, the *why* behind every verdict/label/finding, structured with the
+   glossary emojis, so a reader who never watched the run understands it from the
+   report alone. Repeatable output lives in standard, per-skill reference files
+   under the collection's shared names (`report-templates.md`, `pr-finalize.md`,
+   `review-report.md`, `rules.md`, …); a skill carries its **own copy** of each
+   file for the steps it performs so it installs standalone, and
+   `om-auto-create-pr` holds the canonical text. Fill a shipped template exactly
+   and expand with detail — **never improvise a terser variant to save tokens**
+   (token economy is paid by granulating layer 3, not by thinning the
+   deliverable). When you edit a shared reference file in one skill, diff the same
+   file across the others and ask the user whether to sync — list the skills that
+   would change (Cross-skill contract §5). Canonical rules:
+   `skills/om-auto-create-pr/references/rules.md` (Reporting style, Label
+   commentary) and each skill's `references/report-templates.md`.
+
+3. **Consistent emoji usage.** All user-facing output draws from **one shared
+   glossary**, reproduced verbatim in every skill's `references/rules.md`:
+
+   > 🎯 goal · 📋 plan · 📝 spec · 🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass · ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release
+
+   plus the 🤖 comment marker (`` 🤖 `<skill-name>` — <purpose> ``). Emojis
+   **decorate**; parsers key on the text markers only (`🤖 <skill> —`, `PR: #`,
+   `Status:`), never on an emoji alone — so the glossary can grow but a marker's
+   text never changes. Use an emoji only for its glossary meaning; don't invent
+   per-skill emojis or scatter decorative ones through prose. The glossary line is
+   canonical and identical across all skills — change it in one place and you must
+   sync every copy in the same PR (Cross-skill contract §3, §5).
+
 ## Validation
 
 Run before every PR (also the full CI gate):
