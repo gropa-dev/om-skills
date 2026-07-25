@@ -26,6 +26,11 @@ stricter rule wins.
 
 ## om-ux-setup specifics
 
+- **Extract, do not judge.** This skill writes the contract and hands it over.
+  Producing findings, verdicts, or a review of code, screens, or mockups is
+  out of scope even when the user's wider goal is an evaluation: name the
+  skill that owns that work and let the user invoke it.
+
 - **Never regenerate silently.** An existing contract is team knowledge under
   review. When one is present, say what a refresh would change and let the
   user decide.

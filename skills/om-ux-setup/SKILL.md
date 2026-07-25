@@ -18,6 +18,15 @@ colors its code already uses as the first draft of a design system.
 **Output** — `.uxproof/` written or refreshed, plus the handover report from
 `references/report-templates.md`.
 
+**Where this skill stops.** It produces a contract and hands it over. It does
+not review anything: no findings, no verdicts, no lists of what is wrong with
+the code, the screens, or the mockups, however tempting that is once the
+contract is fresh. When the user wants judgment, name the skill that owns it
+and stop: `om-ux-review-pr` for a pull request's running UI, `om-ux-shape` in
+Review mode for a whole module or flow. Reviewing design files against the
+contract is not covered by any skill in this collection yet; say so plainly
+rather than improvising it here.
+
 ## What the contract holds
 
 - `contract.json` — framework, styling system, component roots,
@@ -63,5 +72,11 @@ Full shapes, and the by-hand fallback, live in
    scanner can infer: naming rules, forbidden patterns, tone, the exceptions
    the team deliberately keeps. Write the answers into the manual section.
 
-5. **Hand over.** Fill `references/report-templates.md`, recommend committing
-   the contract, and name the single most useful next command.
+5. **Check the contract's own hygiene.** The extractor warns when a fifth or
+   more of the tokens come from files that look like scratch or generated
+   output. Surface that warning: a contract built from throwaway files is a
+   bad judge, and the fix (delete or exclude, then re-run the sync) belongs in
+   the handover, not in a later review.
+
+6. **Hand over.** Fill `references/report-templates.md`, recommend committing
+   the contract, and name the single most useful next command. Stop there.
