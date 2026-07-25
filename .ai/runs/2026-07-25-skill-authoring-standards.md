@@ -59,12 +59,12 @@ matching enforceable checks in CODE_REVIEW.md.
 
 ### Phase 1: AGENTS.md authoring standards
 
-- [ ] 1.1 Add "Skill authoring standards" section (token economy, communication templates, emoji glossary) with canonical pointers
+- [x] 1.1 Add "Skill authoring standards" section (token economy, communication templates, emoji glossary) with canonical pointers — 0353c9b
 
 ### Phase 2: CODE_REVIEW.md enforcement
 
-- [ ] 2.1 Add review priorities + repo-specific checks + severity guidance for the three standards
+- [x] 2.1 Add review priorities + repo-specific checks + severity guidance for the three standards — 71a4bc6
 
 ### Phase 3: Validation & self-review
 
-- [ ] 3.1 Run the lint gate, breaking-change/self review, confirm docs-only scope
+- [x] 3.1 Run the lint gate, breaking-change/self review, confirm docs-only scope — 2ef2505
