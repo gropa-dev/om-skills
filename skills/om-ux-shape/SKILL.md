@@ -1,153 +1,122 @@
 ---
 name: om-ux-shape
-description: Turn vague product, UI/UX, or AI feature ideas into focused, useful, business-aware, development-ready decisions. Use when shaping a new feature, simplifying an overcomplicated concept or workflow, reviewing UX strategy, deciding whether and how AI should be used, defining user flows and interface states, planning validation, or preparing a product/design handoff for engineering.
+description: Turn a vague product, UI/UX, or AI feature idea into a decided direction. Use when shaping a feature, simplifying an overcomplicated flow, deciding whether and how to use AI, defining screen states, planning validation, or preparing a design handoff for engineering.
 ---
 
 # Shape Useful Features
 
-Turn ambiguity into a clear product decision before turning it into screens. Connect user value, business value, interaction quality, AI behavior, delivery constraints, and evidence in one lightweight process.
+Turn ambiguity into a clear product decision before turning it into screens.
+Connect user value, business value, interaction quality, AI behavior, delivery
+constraints, and evidence in one lightweight process.
+
+**Input** — a feature idea, an existing concept or product area, or a decided
+direction that needs implementation detail.
+**Output** — one filled shape from `references/report-templates.md`.
 
 ## Choose the mode
 
-- Use **Shape** for a vague opportunity, request, or feature idea. Default to this mode.
-- Use **Review** for an existing concept, flow, design, prototype, or specification.
-- Use **Handoff** when the direction is decided and the user needs implementation-ready behavior.
-- Combine modes only when the request genuinely spans them. Do not make a small task carry the full process.
+- **Shape** for a vague opportunity, request, or feature idea. The default.
+- **Review** for an existing concept, flow, design, prototype, or product area
+  (including a whole module handed over by `om-ux-review-pr`).
+- **Handoff** when the direction is decided and implementation-ready behavior
+  is what is missing.
 
-Read the supporting references selectively:
-
-- For Shape or Review, read [decision-framework.md](references/decision-framework.md).
-- Whenever AI is proposed or already present, read [ai-interaction.md](references/ai-interaction.md).
-- When AI passed the necessity gate, also check the design against [hai-guidelines.md](references/hai-guidelines.md).
-- When defining outcomes or validation metrics, read [human-value-metrics.md](references/human-value-metrics.md).
-- For AI features, also read [reward-and-mental-models.md](references/reward-and-mental-models.md) — the which-mistake-hurts-less decision and first-contact expectation patterns.
-- Before writing the result, read the relevant mode in [output-contracts.md](references/output-contracts.md).
-- Before finalizing any result, apply [quality-rubric.md](references/quality-rubric.md).
-- Read [foundations.md](references/foundations.md) only when explaining the rationale, adapting the process, or evolving this skill.
+Combine modes only when the request genuinely spans them, and never make a
+small task carry the full process.
 
 ## Operating principles
 
 1. Start from the consequential problem, not the requested interface.
 2. Treat requirements as claims until evidence supports them.
-3. Label facts, inferences, assumptions, and open questions. Never invent research, user quotes, metrics, or constraints.
-4. Tie the user outcome to a business effect without treating business value as a substitute for user value.
-5. Prefer the smallest coherent end-to-end solution over a collection of features.
+3. Label facts, inferences, assumptions, and open questions. Never invent
+   research, user quotes, metrics, or constraints.
+4. Tie the user outcome to a business effect without treating business value
+   as a substitute for user value.
+5. Prefer the smallest coherent end-to-end solution over a collection of
+   features.
 6. Recommend a direction. Do not hide behind an unranked menu of options.
-7. Make every UI element earn its place by enabling an action, decision, status, explanation, or recovery.
-8. Treat AI as a design material with uncertainty, latency, cost, and failure modes—not as a default interface.
-9. Preserve meaningful human control, especially for consequential or hard-to-reverse actions.
+7. Make every UI element earn its place by enabling an action, decision,
+   status, explanation, or recovery.
+8. Treat AI as a design material with uncertainty, latency, cost, and failure
+   modes, not as a default interface.
+9. Preserve meaningful human control, especially for consequential or
+   hard-to-reverse actions.
 10. Match the depth of the process and output to the decision's risk.
 
-## Core workflow
+## Workflow
 
-### 1. Establish the decision
+0. **Agentic setup** — follow `references/agentic-setup.md`: repo-local
+   override contract, the design contract as constraints when present, and the
+   untrusted-content boundary. Shared communication and reporting rules live
+   in `references/rules.md`.
 
-Inspect the request and any supplied artifacts first. State:
+1. **Establish the decision.** State the decision being made, the primary
+   actor and situation, the intended user and business outcomes, and the mode
+   and depth. Ask only questions whose answers could materially change the
+   direction; otherwise proceed with clearly marked assumptions.
 
-- the decision being made;
-- the primary actor and situation;
-- the intended user and business outcomes;
-- the mode and appropriate depth.
+2. **Build the evidence ledger.** Separate what is known, inferred, assumed,
+   and unknown, following `references/decision-framework.md` (§2). Prioritize
+   unknowns by decision risk, not curiosity.
 
-Ask only questions whose answers could materially change the direction. Otherwise proceed with clearly marked assumptions.
+3. **Diagnose.** Write a one-sentence diagnosis naming the main obstacle to
+   progress, distinguishing the underlying job from the requested feature.
+   Then define one primary behavioral outcome, its plausible business effect,
+   and a guardrail against harmful optimization. Framing and outcome
+   discipline: `references/decision-framework.md` (§1, §3); choosing signals
+   that mean people are better off: `references/human-value-metrics.md`.
 
-### 2. Build an evidence ledger
+4. **Test the proposed mechanism.** When AI is involved, run the necessity
+   gate in `references/ai-interaction.md` and explicitly consider a rules-based
+   alternative; a design that passes the gate is then checked against
+   `references/hai-guidelines.md`, and its preferred-mistake decision and
+   first-contact framing against `references/reward-and-mental-models.md`.
+   For any feature, rate the four product risks (value, usability,
+   feasibility, viability) per `references/decision-framework.md` (§4), adding
+   trust, safety, privacy, and model-quality risks for AI.
 
-Separate:
+5. **Choose a direction.** Generate two or three meaningfully different
+   mechanisms, compare them per `references/decision-framework.md` (§5), and
+   select one, explaining the decisive trade-off. Tag the claims that carry
+   the argument with their honest tier from `references/evidence-tiers.md`. In
+   Review mode, rank findings by impact × frequency × reach, never by ease of
+   fix.
 
-- **Known:** supplied facts, observed behavior, research, analytics, constraints;
-- **Inferred:** reasonable interpretations of known evidence;
-- **Assumed:** unverified beliefs required to proceed;
-- **Unknown:** questions that could change scope or direction.
+6. **Shape the smallest coherent feature.** One primary job and happy path,
+   the minimum states and recovery paths trust requires, and an explicit now,
+   later, and not-doing split (`references/decision-framework.md` §6). A thin
+   but broken slice is not an MVP: the smallest coherent feature completes a
+   real job end to end and survives its likely failures.
 
-Do not turn a provisional persona into evidence. Prioritize unknowns by decision risk, not curiosity.
+7. **Specify the interaction contract.** Entry point and trigger, information
+   required, system response, primary decisions and actions, the relevant
+   empty, loading, partial, success, error, and permission states, and the
+   edit, undo, dismiss, retry, fallback, or escalation paths, plus
+   accessibility and content requirements. For AI, also specify capability
+   framing, uncertainty, explanations, data use, feedback, control, and
+   behavior when the model cannot help.
 
-When the repository carries a design contract (`.uxproof/` — see the
-`om-ux-setup` skill), load `contract.json` and `conventions.md` into the
-Known column: the registered components, screen archetypes and house rules
-are constraints on every direction you shape, and an existing archetype
-example beats a from-scratch flow. The manual section of `conventions.md`
-and a repo-root `UX_REVIEW.md`, when present, extend these rules and win on
-conflict. The skill works without a contract — it then simply cannot make
-repo-grounded claims and must say so.
+8. **De-risk and deliver.** Name the riskiest unverified belief, choose the
+   smallest test that could change the decision, and state what each result
+   triggers (`references/decision-framework.md` §7). Then fill the matching
+   shape in `references/report-templates.md`, and apply
+   `references/quality-rubric.md` before delivering: a zero in diagnosis, user
+   outcome, coherent scope, AI necessity, or AI control and recovery means the
+   result is not ready.
 
-### 3. Diagnose the challenge
-
-Write a one-sentence diagnosis that identifies the main obstacle to progress. Describe the current behavior or workflow and the friction that matters. Distinguish the underlying job from the initially requested feature.
-
-Define one primary behavioral outcome and its plausible business effect. Add guardrails against harmful or misleading optimization.
-
-### 4. Test the proposed mechanism
-
-If AI is involved, run the AI necessity gate in [ai-interaction.md](references/ai-interaction.md). Explicitly consider a non-AI or rules-based solution. Choose the appropriate level of automation or augmentation.
-
-For any feature, identify the four product risks:
-
-- value;
-- usability;
-- feasibility;
-- business viability.
-
-Add trust, safety, privacy, and model-quality risks when AI is involved.
-
-### 5. Choose a direction
-
-Generate only enough alternatives to avoid first-idea bias—usually two or three. Compare them against the diagnosis, outcomes, constraints, evidence, reversibility, and risks.
-
-Select one direction and explain the decisive trade-off. Keep rejected options internal unless they help the user understand a consequential choice.
-
-When claims in the recommendation cite sources, tag them with the evidence
-tiers shared across this collection: `[PRODUCT]` (this repo's contract,
-analytics, documented decisions), `[STANDARD]` (WCAG, platform guidelines —
-cite which), `[PLATFORM]`, `[RESEARCH]` (name the source), `[HEURISTIC]`
-(name which one), `[ASSUMPTION]` (labeled, falsifiable). The ledger above
-classifies your inputs; these tags grade your outputs — never dress an
-assumption as a standard. In Review mode, rank findings by impact ×
-frequency × reach (how badly it hurts × how often users hit it × how many
-users), never by ease of fix.
-
-### 6. Shape the smallest coherent feature
-
-Define:
-
-- one primary job and happy path;
-- the minimum states and recovery paths required for trust;
-- what is included now;
-- what is deferred;
-- what should not be built.
-
-Do not confuse a thin but broken slice with an MVP. The smallest coherent feature must complete a real job end to end and support recovery from likely failure.
-
-### 7. Specify the interaction contract
-
-Describe:
-
-- entry point and trigger;
-- information required from the user or context;
-- system response and feedback;
-- primary decisions and actions;
-- empty, loading, partial, success, error, and permission states that are relevant;
-- edit, undo, dismiss, retry, fallback, or escalation paths;
-- accessibility and content requirements.
-
-For AI, also specify capability framing, uncertainty, explanations, sources or data use, feedback, control, and behavior when the model cannot help.
-
-### 8. De-risk and hand off
-
-Identify the riskiest unverified belief. Choose the smallest test that could change the decision. Define success, failure, and the action to take for either result.
-
-When implementation is in scope, include only the necessary delivery contract: components or UI regions, behavior, state model, data and permission assumptions, analytics events, accessibility, acceptance criteria, and unresolved decisions.
+`references/foundations.md` explains the rationale behind this process; read
+it only when adapting the process or evolving this skill.
 
 ## Response behavior
 
 - Lead with the recommendation or verdict.
-- Use plain language and concrete product behavior.
-- Keep process narration shorter than the decision it supports.
-- Scale detail down for low-risk work and up for consequential, novel, or implementation-ready work.
-- If the user asks to build or modify the feature, use this workflow to make decisions, then continue into implementation.
-- If the evidence does not support a confident recommendation, say what is provisional and propose the smallest learning step.
-- Downstream in this collection: the `om-ux-setup` skill extracts the design
-  contract the Handoff should build on, and the `om-ux-review-pr` skill
-  judges the shipped result against it — a Handoff that names contract
-  components and archetype examples makes both cheaper.
-
+- Use plain language and concrete product behavior; keep process narration
+  shorter than the decision it supports.
+- Scale detail down for low-risk work and up for consequential, novel, or
+  implementation-ready work.
+- If the evidence does not support a confident recommendation, say what is
+  provisional and propose the smallest learning step.
+- If the user asks to build the feature, use this workflow to decide, then
+  continue into implementation. The Handoff shape is written to feed the
+  collection's implementing skills; `om-ux-review-pr` closes the loop on the
+  resulting PR.
