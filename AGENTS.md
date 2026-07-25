@@ -75,7 +75,10 @@ points there; **never re-explain the detail here**, or the copy drifts.
    text never changes. Use an emoji only for its glossary meaning; don't invent
    per-skill emojis or scatter decorative ones through prose. The glossary line is
    canonical and identical across all skills — change it in one place and you must
-   sync every copy in the same PR (Cross-skill contract §3, §5).
+   sync every copy in the same PR (Cross-skill contract §3, §5). (Cross-skill
+   contract §3 lists the same emojis with fuller descriptive glosses for readers;
+   the short line above, exactly as it appears in `rules.md`, is the canonical
+   form to reproduce.)
 
 ## Validation
 
