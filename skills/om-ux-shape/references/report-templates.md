@@ -30,8 +30,12 @@ effect that follows, and the guardrail that must not degrade.>
 
 ### 📋 How it works
 
-<Entry point, the primary flow, the states that must exist for trust
-(empty, loading, error, permission), and the recovery paths.>
+<Screen by screen, named. For each: what the user sees, the components it is
+built from (from the contract registry when one exists), the actions
+available, and where each one leads. Then the states that must exist for
+trust (empty, loading, error, permission) with the actual message the user
+reads, and the recovery paths. Write the labels and copy, do not describe
+them.>
 
 ### 🤖 AI contract
 
@@ -47,10 +51,17 @@ what each result would mean.>
 ### ⚠️ Open decisions
 
 <Only questions that could still change the direction.>
+
+### 📋 Applied
+
+<One line naming the checks that ran and the ones that did not apply, so the
+reader can see the coverage: AI necessity gate, human-AI checklist, value
+metrics, design contract, quality rubric. Example: "AI gate: not applicable
+(no AI in scope). Contract: loaded, 731 components. Rubric: passed.">
 ```
 
 For a small request, compress to recommendation, assumptions, flow, scope,
-and next test.
+and next test, and keep the Applied line.
 
 ## Review mode
 
@@ -82,6 +93,13 @@ fix costs, and how to tell it worked.>
 ### ⚠️ Not covered
 
 <What was not examined and why: missing data, no access, out of scope.>
+
+### 📋 Applied
+
+<One line naming the checks that ran and the ones that did not apply, so the
+reader can see the coverage: AI necessity gate, human-AI checklist, value
+metrics, design contract, quality rubric. Example: "AI gate: not applicable
+(no AI in scope). Contract: loaded, 731 components. Rubric: passed.">
 ```
 
 ## Handoff mode
@@ -120,18 +138,30 @@ engineering confirmation, marked as assumptions.>
 ### ⚠️ Open decisions
 
 <With owners where known.>
+
+### 📋 Applied
+
+<One line naming the checks that ran and the ones that did not apply.>
 ```
 
 ## Writing rules
 
+- **Land it concretely.** Name screens, name components, and write the actual
+  headings, labels, empty-state sentences, and error messages. A reader who
+  cannot build or draw the result from the text has not been given a result.
+  Abstraction is the default failure of this skill: "improve the empty state"
+  is a note to self, while "the empty list shows *No people yet* with an *Add
+  the first person* button" is a decision someone can ship.
+- **Write for the reader who was not in the room.** Default to the person with
+  the least context who has to act on this: they do not know the design
+  system, the history, or the vocabulary. Name things in full the first time.
+- **Show your coverage.** The Applied line is not decoration: it lets the
+  reader tell a check that passed from a check that never ran.
 - Lead with the decision, not the framework.
 - The framework's vocabulary is for the author, never the reader: names like
   evidence ledger, value gaps, complexity hotspots, behavioral signal, or
   guardrail must not appear in the delivered text. Render each as a plain
   statement about screens, behavior, and what to change.
-- Write for the named audience (designer, product manager, engineer) in their
-  working language; when unsure, default to how a senior designer explains a
-  change to a colleague.
 - The result obeys the same house copy rules it enforces: check it against the
   manual section of the design contract and any team rules the user stated.
 - Prefer one strong recommendation over several equally weighted ideas.

@@ -23,14 +23,18 @@ Score each item:
 8. Relevant product risks are addressed in proportion to consequence.
 9. The riskiest belief has a decision-changing test.
 10. Success, failure, and guardrails are measurable.
+11. The result is concrete: screens and components are named, and the copy the
+    user reads is written rather than described. A reader who was not in the
+    conversation could build or draw it.
+12. The Applied line states which checks ran and which did not apply.
 
 ## AI quality, when applicable
 
-11. AI adds unique value over a simpler alternative.
-12. Automation versus augmentation matches stakes and responsibility.
-13. Capability, limitations, data use, and uncertainty are understandable.
-14. The user can correct, reject, undo, or bypass AI where needed.
-15. Likely errors have detection and recovery paths.
+13. AI adds unique value over a simpler alternative.
+14. Automation versus augmentation matches stakes and responsibility.
+15. Capability, limitations, data use, and uncertainty are understandable.
+16. The user can correct, reject, undo, or bypass AI where needed.
+17. Likely errors have detection and recovery paths.
 
 ## Critical gates
 
@@ -39,6 +43,7 @@ Do not finalize with a zero in:
 - diagnosis;
 - user outcome;
 - coherent scope;
+- concreteness (item 11): an abstract answer is an unfinished answer;
 - AI necessity, when AI is involved;
 - control and failure recovery for consequential AI actions.
 
@@ -52,6 +57,8 @@ Revise any result that:
 - presents assumptions as research;
 - adds chat, dashboards, settings, or personalization without a job;
 - designs only the happy path;
+- stays at the level of principles when the reader needs screens, labels, and
+  states they can act on;
 - claims that AI is trustworthy without giving users a way to judge or correct it.
 
 ## Final compression pass

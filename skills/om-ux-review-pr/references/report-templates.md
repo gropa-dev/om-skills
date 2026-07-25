@@ -40,6 +40,12 @@ never adds a second review comment to the same PR.
 - **Must change**: <one sentence naming the findings that clear the impact bar>
 - **Opinion**: <one sentence naming what is assumption-tier and safe to overrule>
 
+### 📋 Applied
+
+<One line naming the checks that ran and the ones that did not apply: design
+contract, state matrix, humane gate, repo-local rules. It lets the author tell
+a check that passed from a check that never ran.>
+
 _Advisory review: findings are input for the author, not a merge gate. This skill applies no labels and blocks no merge._
 ```
 

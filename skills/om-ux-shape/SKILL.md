@@ -24,6 +24,31 @@ direction that needs implementation detail.
 Combine modes only when the request genuinely spans them, and never make a
 small task carry the full process.
 
+## Who reads the result
+
+Establish this before writing, because it decides how concrete the output must
+be. Ask when it is unclear, otherwise **default to the least-context reader**:
+someone who will build or draw this, does not know the design system, and was
+not in the conversation. Write for them. A senior designer can skim a concrete
+answer; nobody can build an abstract one.
+
+## Required reading
+
+These are not optional background. When the condition is met, load the
+reference before finishing the step: skipping it produces the failure this
+skill exists to prevent, an answer that sounds reasonable and decides nothing.
+
+| Condition | Load |
+|---|---|
+| Shape or Review mode | `references/decision-framework.md` |
+| AI is proposed, implied, or already present | `references/ai-interaction.md`, then `references/hai-guidelines.md` and `references/reward-and-mental-models.md` for whatever passed the gate |
+| Outcomes or validation metrics are being defined | `references/human-value-metrics.md` |
+| Before writing any result | `references/report-templates.md` |
+| Before delivering any result | `references/quality-rubric.md` |
+
+`references/foundations.md` explains the rationale behind the process; read it
+only when adapting the process or evolving this skill.
+
 ## Operating principles
 
 1. Start from the consequential problem, not the requested interface.
@@ -88,13 +113,20 @@ small task carry the full process.
    but broken slice is not an MVP: the smallest coherent feature completes a
    real job end to end and survives its likely failures.
 
-7. **Specify the interaction contract.** Entry point and trigger, information
-   required, system response, primary decisions and actions, the relevant
-   empty, loading, partial, success, error, and permission states, and the
-   edit, undo, dismiss, retry, fallback, or escalation paths, plus
+7. **Specify the interaction contract, concretely.** Entry point and trigger,
+   information required, system response, primary decisions and actions, the
+   relevant empty, loading, partial, success, error, and permission states,
+   and the edit, undo, dismiss, retry, fallback, or escalation paths, plus
    accessibility and content requirements. For AI, also specify capability
    framing, uncertainty, explanations, data use, feedback, control, and
    behavior when the model cannot help.
+
+   Concrete means: name the screens, name the components (from the contract
+   registry when one exists), and write the actual labels, headings, empty-state
+   sentences, and error messages rather than describing them. "Add a helpful
+   empty state" is unfinished work; the finished version says what the screen
+   shows, in the words the user will read. **If a reader could not build or
+   draw it from your output, the step is not done.**
 
 8. **De-risk and deliver.** Name the riskiest unverified belief, choose the
    smallest test that could change the decision, and state what each result
@@ -102,10 +134,9 @@ small task carry the full process.
    shape in `references/report-templates.md`, and apply
    `references/quality-rubric.md` before delivering: a zero in diagnosis, user
    outcome, coherent scope, AI necessity, or AI control and recovery means the
-   result is not ready.
-
-`references/foundations.md` explains the rationale behind this process; read
-it only when adapting the process or evolving this skill.
+   result is not ready. Close with the one-line **Applied** note the template
+   defines, so the reader can see which checks ran and which did not apply
+   instead of guessing what was considered.
 
 ## Response behavior
 
