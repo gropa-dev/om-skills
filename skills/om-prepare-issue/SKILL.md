@@ -48,7 +48,7 @@ This skill only **creates** issues. To bring an issue that **already exists** up
 
    Reduce the analysis to numbered, testable steps a future implementer can follow without re-exploring the repo. Reference real file paths and function names.
 
-5. **Compose and create the issue.** Title: action-oriented and specific — `Implement: <feature>` for features, `Fix: <symptom>` for bugs. Body:
+5. **Compose and create the issue.** Title: action-oriented and specific — `Implement: <feature>` for features, `Fix: <symptom>` for bugs. When the brief names a handoff file (a `— brief: <path>` suffix from `om-brainstorm`), embed its content — problem, agreed direction, resolved unknowns, non-goals — in the body sections below: the tracker copy is the durable one, and the issue must never depend on the local file. Body:
 
    ```markdown
    ## Summary

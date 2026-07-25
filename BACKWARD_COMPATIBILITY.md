@@ -46,6 +46,7 @@ hold committed, possibly team-edited copies at `.ai/browsers/<provider>.md`.
 - **`<paths.qa>/test-env.json`** — written by `om-prepare-test-env`, consumed by `om-auto-qa-pr` and `om-integration-tests`.
 - **Generated launcher scripts in `<paths.scripts>/`** — created by `om-prepare-test-env`, re-run by later runs and other skills.
 - **Chaining reference lines** (`PR: #<number> (link: <url>)`, `Issue: #<number> (link: <url>)`, `Spec: <path>`) — emitted at the end of every PR-producing/-driving skill's final report, parsed by the next skill in a chain and by session orchestrators (e.g. cezar).
+- **Routing lines from `om-brainstorm`** (`Next: none` | `Next: om-<skill> <args>`, plus `Brief: <repo-relative path>` when a handoff brief was written) — emitted at the end of its final report, parsed by session orchestrators to route the follow-up run. The `— brief: <path>` suffix inside the args is read by the routed skill (`om-prepare-issue`, `om-auto-write-spec`, `om-spec-writing`, `om-auto-create-pr`), which ingests the brief file and makes its payload durable per the brief lifecycle in `om-brainstorm/references/exit-ramps.md`. Additive; no existing consumer changes.
 
 **Breaking:** changing any of these formats so an unmodified consumer skill can no longer parse output produced by a modified producer (or vice versa). **Required path:** update producer and all consumers in one PR, and keep the parser tolerant of the previous format when consumer repos may hold old artifacts (committed plans, descriptors).
 

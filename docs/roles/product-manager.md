@@ -8,6 +8,7 @@ The pipeline turns your ideas into tracked, well-formed work and — when you wa
 
 | Skill | When | Example call | What you get |
 |---|---|---|---|
+| [`om-brainstorm`](../skills/om-brainstorm.md) | Think it through before any artifact exists | `/om-brainstorm "should we build bulk-archive?"` | a routing decision with its reasoning, and a brief file the pipeline can run with |
 | [`om-prepare-issue`](../skills/om-prepare-issue.md) | Park an idea as one clean issue | `/om-prepare-issue "Bulk-archive orders from the grid"` | a deduped, SDLC-labeled issue with a linked spec or step-by-step guidance |
 | [`om-auto-manage-issues`](../skills/om-auto-manage-issues.md) | Triage or enrich the backlog | `/om-auto-manage-issues` | missing labels added, laconic issues clarified (screenshots analyzed), implementation-prep comment posted, feature issues without a spec flagged with a spec-required comment to their author (`--write-missing-specs` authors them instead) |
 | [`om-auto-manage-issues`](../skills/om-auto-manage-issues.md) | Clean up one issue | `/om-auto-manage-issues 123` | that issue relabeled and clarified in place |
@@ -26,6 +27,7 @@ The pipeline turns your ideas into tracked, well-formed work and — when you wa
 
 ## Tips
 
+- Start with [`om-brainstorm`](../skills/om-brainstorm.md) when the idea is still fuzzy — its brief's resolved-unknowns table replaces the spec's autonomous defaults downstream, so the full-auto path runs on your answers instead of the agent's guesses.
 - Use `om-auto-write-spec <issue>` when you want to sign off on the approach before any implementation happens — it stops after the spec PR lands; a later [`om-auto-fix-issue`](../skills/om-auto-fix-issue.md) run picks the spec up and implements it on the same PR.
 - Specs are **autonomous by default**: `om-spec-writing --autonomous` posts its Open-Questions assumptions as a comment for you to override, rather than blocking. Pass `--interactive` (on [`om-auto-fix-issue`](../skills/om-auto-fix-issue.md) / [`om-prepare-issue`](../skills/om-prepare-issue.md)) when you'd rather answer the questions live.
 - To override an autonomous assumption, just reply on the PR/issue comment — the defaults are posted precisely so you can correct them.
