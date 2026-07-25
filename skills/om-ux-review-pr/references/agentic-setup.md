@@ -10,7 +10,7 @@ setup authority is `om-setup-agent-pipeline`.
    with a user present, `--defaults` unattended), then reload and continue.
    This skill uses `BASE_BRANCH`, the browser-provider descriptor, and the
    tracker operations **get-pr**, **get-pr-diff**, **list-issue-comments**,
-   **post-comment**, **update-comment**, **attach-image-evidence**.
+   **comment-pr**, **update-comment**, **attach-image-evidence**.
 2. Read `$TRACKER_FILE` — every tracker operation named in this skill executes
    as that descriptor defines; a `BASE_BRANCH` of `"auto"` resolves via the
    **default-branch** operation.

@@ -48,6 +48,30 @@ for dir in skills/*/; do
   fi
 done
 
+# Packaging gate: two machine-readable contracts that shipped broken once and
+# are invisible to a human reviewer.
+#   1. An agents/<client>.yaml that invokes a name other than the skill's own
+#      addresses a package the user does not have installed.
+#   2. OS metadata files (.DS_Store, Thumbs.db) get published into every
+#      installed copy of the skill.
+for dir in skills/*/; do
+  name=$(basename "$dir")
+  for meta in "$dir"agents/*.yaml; do
+    [ -e "$meta" ] || continue
+    invoked=$(grep -oE '\$[a-z0-9-]+' "$meta" | sort -u)
+    for token in $invoked; do
+      if [ "$token" != "\$$name" ]; then
+        err "$meta invokes $token but the installed skill is named '$name'"
+      fi
+    done
+  done
+done
+
+junk=$(find skills -name '.DS_Store' -o -name 'Thumbs.db' 2>/dev/null)
+if [ -n "$junk" ]; then
+  err "OS metadata files must not ship inside skills: $(printf '%s' "$junk" | tr '\n' ' ')"
+fi
+
 # Reference-resolution gate: every `references/...` pointer in a skill's markdown
 # must resolve — same-skill pointers relative to the skill dir, cross-skill
 # pointers written as explicit om-<skill>/references/<file> paths.

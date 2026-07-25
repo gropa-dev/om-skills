@@ -55,13 +55,17 @@ Full shapes, and the by-hand fallback, live in
 2. **Extract.** Run the contract extractor:
 
    ```bash
-   npx uxproof@latest init --no-skills
+   npx uxproof@0.3.1 init --no-skills
    ```
 
-   The `--no-skills` flag is deliberate: this collection provides the agent
-   workflow, so the extractor contributes the contract only. Without network
-   or npm access, use the manual fallback in
-   `references/contract-format.md` instead of a partial scan.
+   The version is pinned on purpose: `@latest` would execute unreviewed
+   remote code on every run and let a future release change the contract
+   format silently. Upgrading is a deliberate edit to this line, after
+   checking the package's changelog. The `--no-skills` flag is equally
+   deliberate: this collection provides the agent workflow, so the extractor
+   contributes the contract only. Without network or npm access, use the
+   manual fallback in `references/contract-format.md` instead of a partial
+   scan.
 
 3. **Show what was found.** Report the detected stack, the token and component
    counts, and the screen archetypes with their canonical examples, so the
