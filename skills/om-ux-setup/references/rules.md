@@ -11,11 +11,7 @@ stricter rule wins.
 - **Secrets hygiene.** Never paste secrets, tokens, `.env` content, or raw
   credentials into the contract, reports, or logs. The contract describes
   design, not configuration.
-- **Emoji glossary** in user-facing output: 🎯 goal · 📋 plan · 📝 spec ·
-  🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass ·
-  ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release.
-  Emojis decorate; use one only for its glossary meaning and never invent
-  per-skill emojis.
+- **Emoji glossary** in user-facing output: 🎯 goal · 📋 plan · 📝 spec · 🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass · ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release. Emojis decorate; parsers key on text markers only.
 - **Reporting style.** User-facing output is a deliverable, not a log: write
   complete sentences and explain the why behind every number you report.
   Never compress reporting to save tokens. Fill the shape in

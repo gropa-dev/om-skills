@@ -10,11 +10,7 @@ stricter rule wins.
   and starts no implementation unless asked.
 - **Secrets hygiene.** Never paste secrets, tokens, `.env` content, or raw
   credentials into specs, handoffs, or reports.
-- **Emoji glossary** in user-facing output: 🎯 goal · 📋 plan · 📝 spec ·
-  🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass ·
-  ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release.
-  Emojis decorate; use one only for its glossary meaning and never invent
-  per-skill emojis.
+- **Emoji glossary** in user-facing output: 🎯 goal · 📋 plan · 📝 spec · 🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass · ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release. Emojis decorate; parsers key on text markers only.
 - **Reporting style.** User-facing output is a deliverable, not a log: write
   complete sentences, explain the why behind every verdict and recommendation,
   and structure sections with the glossary emojis. Never compress reporting to

@@ -15,11 +15,7 @@ stricter rule wins.
   `` 🤖 `om-ux-review-pr` — evidence-first design review `` on its own first
   line so a re-run finds and updates it in place instead of duplicating.
   Parsers key on that text marker, never on emojis.
-- **Emoji glossary** in user-facing output: 🎯 goal · 📋 plan · 📝 spec ·
-  🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass ·
-  ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release.
-  Emojis decorate; use one only for its glossary meaning and never invent
-  per-skill emojis.
+- **Emoji glossary** in user-facing output: 🎯 goal · 📋 plan · 📝 spec · 🏷️ labels · 📸 evidence · 🔍 review · 🧪 tests · 💥 breaking · ✅ pass · ❌ fail · ⚠️ needs-human · ⛔ blocked · 🔁 resume · 🚀 merge/release. Emojis decorate; parsers key on text markers only.
 - **Reporting style.** User-facing output is a deliverable, not a log: write
   complete sentences, explain the why behind every finding, and structure
   sections with the glossary emojis. Never compress reporting to save tokens.
