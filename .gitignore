@@ -6,3 +6,4 @@ node_modules/
 
 # Temporary worktrees created by pipeline skills
 .ai/tmp/
+.DS_Store
