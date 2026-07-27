@@ -19,6 +19,10 @@ never compress; emojis structure the sections, the text carries the meaning.
 - ⛔ {file:line} — {what is wrong and why it matters, full sentence} → {fixed in {sha} | handed back to author}
 - ⚠️ {…one line per blocker/major; summarize minors/nits in one sentence}
 
+### 🔍 Inherited reviewer feedback ({n} asks already on the PR)
+- {@author} on {file:line} ({comment link}) — {the ask, in a full sentence} → {fixed in {sha} | follow-up filed | declined because {reason} | already satisfied by the current head}
+{Say "None — no unaddressed reviewer comments were on the PR." when there were none, and name the tracker operation that was unavailable when inline comments could not be read.}
+
 ### 🧪 Validation
 {One short paragraph: which validation commands ran and their results; call out any failure and what was done about it.}
 
