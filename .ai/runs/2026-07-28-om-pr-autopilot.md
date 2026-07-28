@@ -54,7 +54,7 @@ Goal: give the collection one entry point that takes an open PR, works out what 
 - [x] 2.3 Major 2 — drop om-merge-buddy from the companion list — 677a313
 - [x] 2.4 Major 3 — authorship guard on state-matrix row 4 — 677a313
 - [x] 2.5 Minors and nits — 677a313
-- [x] 2.6 Full validation gate and diff re-review — 677a313
+- [x] 2.6 Full validation gate and diff re-review — 677a313, self-review follow-up 57fd9d3
 
 ## External References
 
