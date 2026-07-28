@@ -17,7 +17,7 @@ Apply labels always through the descriptor guards (`set_pipeline_label` / `apply
 
 ## Summary comment
 
-Every run ends with a single comprehensive summary comment the human reviewer can read top-to-bottom without clicking into the diff. Post it via the tracker operation **comment-pr** with a body file so multi-line formatting is preserved. Cover: base merged in, loop outcome (review verdict, CI status, UI evidence), follow-ups filed, and the merge-readiness verdict with the exact next command (`om-approve-merge-pr {prNumber}` when ready, or the blocker when not). Never post it before the loop finishes, never claim a completion you did not reach, and never paste secrets into it.
+Every run ends with a single comprehensive summary comment the human reviewer can read top-to-bottom without clicking into the diff. Post it via the tracker operation **comment-pr** with a body file so multi-line formatting is preserved. Cover: base merged in, loop outcome (review verdict, CI status, UI evidence), how each reviewer comment already on the PR was handled (fixed, deferred to a follow-up, or declined with a reason), follow-ups filed, and the merge-readiness verdict with the exact next command (`om-approve-merge-pr {prNumber}` when ready, or the blocker when not). Never post it before the loop finishes, never claim a completion you did not reach, and never paste secrets into it.
 
 ## Marker emission
 

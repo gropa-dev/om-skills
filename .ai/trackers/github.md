@@ -302,6 +302,12 @@ gh api repos/{owner}/{repo}/issues/comments/{commentId} --jq '{body,user:.user.l
 gh api repos/{owner}/{repo}/pulls/comments/{commentId} --jq '{body,user:.user.login,url:.html_url}'
 ```
 
+#### list-review-comments
+`{prNumber}` → every inline review comment on the diff (human reviewers and review bots alike), so a reviewing skill can pick up feedback that was already posted. REST does not report thread resolution, so judge each comment against the current head instead of trusting a "resolved" state.
+```bash
+gh api "repos/{owner}/{repo}/pulls/{prNumber}/comments" --paginate --jq '.[] | {id,user:.user.login,path:.path,line:(.line // .original_line),body,url:.html_url}'
+```
+
 ### CI runs
 
 CI status for a *PR* comes from **get-pr-checks** / **get-required-checks** above. The operations here address CI runs directly — needed when working from a bare branch, or when a failure diagnosis needs the actual logs.

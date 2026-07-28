@@ -67,6 +67,7 @@ Copy this file to `.ai/trackers/{name}.md`, set `"tracker": "{name}"` in `.ai/ag
 - **get-pr-checks** — number → CI check runs (name, state, link).
 - **get-required-checks** — base branch → required status checks; when unreadable, treat all reported checks as required.
 - **get-pr-comment / get-review-comment** — comment id → body, author, URL (conversation vs inline review comment).
+- **list-review-comments** — number → the PR's inline review comments (author, file, line, body, URL), so a reviewing skill can pick up feedback other reviewers already posted on the diff. Skills degrade to **get-pr**'s `reviews` bodies plus **list-issue-comments** when a descriptor copy predates this operation.
 
 ### CI runs
 

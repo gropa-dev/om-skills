@@ -14,6 +14,11 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-27 — reviews now pick up the feedback already posted on the PR
+
+- **`om-auto-review-pr` collects existing reviewer feedback** (review bodies, conversation comments, and inline diff comments from humans, review bots, or earlier agent passes) as `INHERITED` findings: they count toward the verdict, are fixed by the autofix loop on eligible runs, and are always accounted for as fixed, deferred to a follow-up, or declined with a reason. The fixing chains (`om-auto-fix-pr`, `om-auto-fix-issue`) inherit this through their `--autofix` delegation — a comment a teammate left on the PR no longer needs to be re-raised by hand.
+- **New tracker operation `list-review-comments`** (a PR's inline review comments) — **re-sync your `.ai/trackers/<tracker>.md`** (or run `/om-apply-upgrade-notes`). Without it the review degrades to review bodies plus conversation comments and says so in its report, so nothing breaks on an older descriptor copy; inline feedback is simply out of reach until you re-sync.
+
 ## 2026-07-25 — New skill: om-brainstorm (the conversation before the pipeline)
 
 - **New skill:** `om-brainstorm` — interactive, read-only divergent conversation for a vague idea or plain question, converging on a user-confirmed routing decision into the pipeline (park as issue, autonomous spec, interactive spec, direct PR, or an existing issue) plus a handoff brief under `${SPECS_DIR}/briefs/`.
