@@ -14,8 +14,8 @@ left to do.
 | 1 | A plan exists with pending steps (`- [ ]`, or a Tasks row not `done`) | `om-auto-continue-pr {pr}` — or `om-auto-continue-pr-loop {pr}` when the tracking line names a **run folder** | all plan steps done |
 | 2 | `plan: none` and the diff does not implement the linked issue | Record the gap as an assumption, continue with the merge-readiness rows, and state in the report that implementation completeness was judged from the diff alone | reported |
 | 3 | Spec-only diff (only `$SPECS_DIR`, the config's `paths.specs`) | `om-auto-review-pr {pr}` (specification review). **Never** grow it into implementation — that ships on its own PR via `om-auto-implement-spec` | spec review submitted |
-| 4 | Mergeability is conflicting or behind the base | On a PR you may drive: `om-auto-fix-pr {pr}` (it merges the base **first**, before review or CI work). On **another author's** PR: `om-auto-review-pr {pr}` only — it owns the base handling for a PR that is not yours, and no autofix commit lands on the author's branch | mergeable, or the base state reported to the author |
-| 5 | Review is none / required, or changes-requested, or unresolved conversations remain | On a PR you may drive: `om-auto-fix-pr {pr} --max-iterations <n>` (review + autofix + CI + UI in one loop). On **another author's** PR: `om-auto-review-pr {pr}` only — review and hand off, no autofix, unless the user explicitly asked for it | approvable, no unresolved blocking conversations |
+| 4 | Mergeability is conflicting or behind the base | `DRIVABLE`: `om-auto-fix-pr {pr}` (it merges the base **first**, before review or CI work). Not `DRIVABLE` (another author's PR): `om-auto-review-pr {pr}` only — it owns the base handling for a PR that is not yours, and no autofix commit lands on the author's branch | mergeable, or the base state reported to the author |
+| 5 | Review is none / required, or changes-requested, or unresolved conversations remain | `DRIVABLE`: `om-auto-fix-pr {pr} --max-iterations <n>` (review + autofix + CI + UI in one loop). Not `DRIVABLE` (another author's PR): `om-auto-review-pr {pr}` only — review and hand off, no autofix | approvable, no unresolved blocking conversations |
 | 6 | CI red, everything else already fine | `om-auto-fix-pr {pr} --ci-only` | all required checks green |
 | 7 | The diff is UI-touching and no QA evidence exists (QA required, no approval and no evidence) | `om-auto-qa-pr {pr}` — capture screenshots and a pass/fail report | evidence attached, or a documented reason UI QA cannot run |
 | 8 | Review findings intentionally not fixed (nits, low severity, out of scope) | `om-followup-issue-from-pr` per finding, idempotently | each finding tracked |
@@ -24,23 +24,23 @@ left to do.
 
 ## Notes that change the chain
 
-- **`PUSHABLE` governs the mechanism, authorship governs the permission.** They
-  are two different tests and both rows 4 and 5 apply both. `PUSHABLE` answers
-  *can I push to this head branch*; authorship answers *may I* — and a
-  colleague's PR on a branch in the main repository is pushable but not yours to
-  autofix. Every row that would put commits on a head branch (`om-auto-fix-pr`,
-  and `om-auto-review-pr --autofix`) therefore runs only on your own PR, or on
-  one the user explicitly asked for the autofix chain on. `PUSHABLE` alone is
-  never sufficient authority.
+- **`PUSHABLE` governs the mechanism, `DRIVABLE` governs the permission.** They
+  are two different signals — both derived in `references/diagnose.md` §2 — and
+  rows 4 and 5 apply both. `PUSHABLE` answers *can I push to this head branch*;
+  `DRIVABLE` answers *may I* — and a colleague's PR on a branch in the main
+  repository is pushable but not yours to autofix. Every row that would put
+  commits on a head branch (`om-auto-fix-pr`, and `om-auto-review-pr --autofix`)
+  therefore requires `DRIVABLE`: your own PR, or one the user explicitly asked
+  for the autofix chain on. `PUSHABLE` alone is never sufficient authority.
 - **Fork PRs — split on `PUSHABLE`, not on `IS_FORK`.** Whether the head branch
   lives in a fork says nothing on its own about push access, because
   contributors commonly work from their own fork:
   - `PUSHABLE` (same repo, or your own fork): the head branch accepts your
     commits, so base merges and follow-up commits go to the PR's own branch —
-    for a PR you may drive. Never route a pushable branch into the carry-forward
-    flow; that would abandon it and open a duplicate PR crediting its own
-    author. Pushable but authored by someone else still takes the review +
-    handoff path per the note above.
+    when it is also `DRIVABLE`. Never route a pushable branch into the
+    carry-forward flow; that would abandon it and open a duplicate PR crediting
+    its own author. Pushable but not `DRIVABLE` still takes the review + handoff
+    path per the note above.
   - Not `PUSHABLE` (someone else's fork): you cannot push to the contributor's
     branch. Do not force a base merge — `om-auto-fix-pr` hands that to
     `om-auto-review-pr`'s fork carry-forward flow, which opens a credited

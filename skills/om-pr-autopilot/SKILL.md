@@ -90,7 +90,8 @@ absence never stops a run.
 
 5. **Execute the chain.** Run each skill verbatim, one at a time, in order.
    Under `--confirm`, present the plan and wait for approval first; under
-   `--dry-run` the run ends here with the plan. After each step re-read the
+   `--dry-run` no sub-skill runs at all — go straight to step 6, which prints
+   the plan as the session report. After each step re-read the
    cheap signals from `references/diagnose.md` (checks, review decision,
    mergeability) — a step's outcome can shorten or extend the rest of the chain.
    Stop the chain and report when a step fails, when a genuine blocker remains,

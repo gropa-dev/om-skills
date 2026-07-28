@@ -28,6 +28,11 @@ Derive:
 - `IS_FORK` — the head branch lives in a different repository.
 - `PUSHABLE` — `!IS_FORK || IS_MINE` (you can push to your own fork). This, not
   `IS_FORK` alone, decides whether the carry-forward flow applies.
+- `DRIVABLE` — `IS_MINE`, or the user explicitly asked for the autofix chain on
+  this PR. Separate from `PUSHABLE` on purpose: `PUSHABLE` answers *can I push*
+  and `DRIVABLE` answers *may I*. A colleague's PR on a branch in the main
+  repository is `PUSHABLE` and not `DRIVABLE`, and every chain step that puts
+  commits on the head branch requires `DRIVABLE`.
 - `IS_DRAFT`.
 
 ## 3. Plan progress (the "how far is the implementation" signal)
@@ -126,7 +131,7 @@ report step publishes.
 ```markdown
 ### PR State Report — #{number} {title}
 
-- Author / fork: {author} · {same-repo | own fork | other's fork} · {draft|ready} · pushable: {yes|no}
+- Author / fork: {author} · {same-repo | own fork | other's fork} · {draft|ready} · pushable: {yes|no} · drivable: {yes|no}
 - Plan: {plan path | run folder | none} — {done}/{total} steps done, next: {step}
 - Diff scope: {spec-only|docs|UI|migration|contract|code} ({n} files)
 - Review: {NONE|REVIEW_REQUIRED|CHANGES_REQUESTED|APPROVED} · {n} unresolved conversations
