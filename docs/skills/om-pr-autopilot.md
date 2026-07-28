@@ -10,14 +10,14 @@ Safety properties it holds: it never merges without `--allow-merge`, never appli
 
 ## Parameters
 
-| Parameter | What it does |
-|---|---|
-| `{prNumber}` | The PR to drive. Omitted, it lists your open PRs and drives the one you name. |
-| `--dry-run` | Diagnose and print the plan; run no sub-skill and mutate nothing. |
-| `--confirm` | Present the diagnosis and planned chain and wait for approval. Default is autonomous. |
-| `--allow-merge` | Permit the chain to end in an actual merge. Off by default — the run stops at merge-ready. |
-| `--force` | Take over an `in-progress` claim held by another actor. |
-| `--max-iterations <n>` | Forwarded to [om-auto-fix-pr](om-auto-fix-pr.md). Default `3`. |
+| Parameter | Required | Description |
+|---|---|---|
+| `{prNumber}` | Interactive: no · Unattended: yes | The PR to drive. Omitted in an interactive run, it lists your open PRs and drives the one you name; an unattended run with no number stops and asks for one. |
+| `--dry-run` | No | Diagnose and print the plan; run no sub-skill and mutate nothing. |
+| `--confirm` | No | Present the diagnosis and planned chain and wait for approval. Default is autonomous. |
+| `--allow-merge` | No | Permit the chain to end in an actual merge. Off by default — the run stops at merge-ready. |
+| `--force` | No | Take over an `in-progress` claim held by another actor. |
+| `--max-iterations <n>` | No | Forwarded to [om-auto-fix-pr](om-auto-fix-pr.md). Default `3`. |
 
 ## Works with
 

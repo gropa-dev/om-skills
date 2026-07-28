@@ -67,9 +67,14 @@ Take `reviewDecision` from step 2, then establish whether review conversations
 are still open. Prefer the tracker's own review-thread data when the descriptor
 exposes it (resolution and outdated state per thread); count only threads that
 are **unresolved and not outdated**, and record their file paths. When the
-descriptor exposes no thread-level operation, fall back to the review comments
-via **get-review-comment** and treat the newest review's requested changes as
-the open set, recording that the count is approximate.
+descriptor exposes no thread-level operation, do not invent one: derive the open
+set from the `reviews` / `latestReviews` already fetched in signal 2 — the
+newest review per author, with a `CHANGES_REQUESTED` decision standing in for
+the unresolved threads — and record `conversations: approximate (no thread-level
+operation)`. When even that is unavailable, record `conversations: unknown`.
+Never resolve a thread id through **get-review-comment**: that operation maps an
+id you already hold to its body, and with no thread-level operation there is no
+id to hand it.
 
 A `CHANGES_REQUESTED` decision, or any unresolved non-outdated thread, means the
 review loop still has work — even when CI is green.

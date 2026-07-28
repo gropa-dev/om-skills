@@ -11,13 +11,16 @@ to the existing `om-*` skills and never re-implements their logic.
 
 It is the dispatcher that sits above `om-auto-continue-pr` (finish the
 implementation), `om-auto-fix-pr` (drive to merge-ready), `om-auto-qa-pr` (UI
-evidence), and `om-approve-merge-pr` / `om-merge-buddy` (merge). Use those
-directly when you already know the PR's state; use this one when you do not.
+evidence), and `om-approve-merge-pr` (merge). Use those directly when you
+already know the PR's state; use this one when you do not.
 
 ## Arguments
 
 - `{prNumber}` (optional) — the PR to drive, e.g. `4321`. When omitted, list the
   current user's open PRs via **list-prs** and drive the one the user names.
+  Naming one requires a human in the loop: an unattended invocation (scheduled
+  run, CI) with no `{prNumber}` stops and reports that it needs one — it never
+  picks a PR on its own.
 - `--dry-run` (optional) — diagnose and print the plan; run no sub-skill and
   mutate nothing on the tracker. Safe first look at an unfamiliar PR.
 - `--confirm` (optional) — present the diagnosis and the planned chain and wait
@@ -36,8 +39,11 @@ run may cause is the fork carry-forward replacement, opened by the delegated
 `Issue:` chaining reference lines. Companion skills, each invoked **verbatim**:
 `om-auto-continue-pr`, `om-auto-continue-pr-loop`, `om-auto-fix-pr`,
 `om-auto-review-pr`, `om-auto-qa-pr`, `om-followup-issue-from-pr`,
-`om-approve-merge-pr`, `om-merge-buddy`. A missing companion stops the run and
-names the skill to install — never improvise a replacement for it.
+`om-approve-merge-pr`. A missing companion stops the run and names the skill to
+install — never improvise a replacement for it. Only a skill this run can
+actually dispatch belongs on that list: `om-merge-buddy` scans the whole open
+queue read-only rather than driving one PR, so it is deliberately absent and its
+absence never stops a run.
 
 ## Workflow
 
@@ -49,7 +55,7 @@ names the skill to install — never improvise a replacement for it.
    (the config's `paths.specs`), `LABELS_ENABLED`, `QA_GATE`, and the operations
    **current-user**, **repo-info**, **get-pr**, **get-pr-files**,
    **get-pr-diff**, **get-pr-checks**, **get-required-checks**, **list-prs**,
-   **get-review-comment**, **list-issue-comments**, **update-comment**,
+   **list-issue-comments**, **update-comment**,
    **assign-pr** / **unassign-pr**, **comment-pr**, plus the `apply_label` and
    `set_pipeline_label` guards. Confirm the active identity via **current-user**
    before anything else and stop when it is not the one this repository's runs
@@ -57,7 +63,9 @@ names the skill to install — never improvise a replacement for it.
 
 1. **Resolve the PR.** With a `{prNumber}`, fetch it. Without one, run
    **list-prs** for the current user's open PRs and drive the one the user
-   names. Stop immediately when the PR is merged or closed.
+   names; with no user to name one — an unattended or scheduled run — stop and
+   report that a `{prNumber}` is required. Stop immediately when the PR is
+   merged or closed.
 
 2. **Claim the PR (outer lock).** Run the standard three-signal in-progress
    check and claim with assignee + `in-progress` + the 🤖 claim comment, or stop
@@ -89,7 +97,10 @@ names the skill to install — never improvise a replacement for it.
    or when a step hits one of the gated human-decision cases; never paper over a
    failing step to reach the next one.
 
-6. **Publish the complete information.** Follow `references/report-templates.md`:
+6. **Publish the complete information.** A `--dry-run` never reaches this step
+   as a tracker mutation: it prints the session report — diagnosis plus the
+   chain it would have run — and posts nothing, applies no label, and files no
+   follow-up. Otherwise follow `references/report-templates.md`:
    one summary comment on the PR covering every chain step and its outcome, the
    label set the PR should carry (applied when permitted, listed as a request to
    the maintainer when triage rights are missing), the QA and merge verdict, and

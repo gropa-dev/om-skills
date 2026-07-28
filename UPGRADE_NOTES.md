@@ -14,6 +14,12 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-07-28 — New skill: om-pr-autopilot (the "just finish this PR" entry point)
+
+- **New skill:** `om-pr-autopilot` — hand it one open PR number and it diagnoses the PR's actual state (plan progress, diff scope, review decision, unresolved conversations, CI against the required checks, mergeability, labels, QA evidence, claim state), maps that onto an ordered chain of the skills you already have, and runs the chain, re-diagnosing between steps. It dispatches only: every fix, review, CI repair, QA capture, and merge stays with the delegated skill.
+- **Nothing to migrate.** It adds no tracker operation, no label, and no new parsed output — it reports the existing `PR:` / `Issue:` chaining lines. It never merges without `--allow-merge`, and `--dry-run` diagnoses while mutating nothing, which is the recommended first call on an unfamiliar PR.
+- Install via `npx skills add open-mercato/skills --skill om-pr-autopilot` (or `--skill '*'`).
+
 ## 2026-07-27 — reviews now pick up the feedback already posted on the PR
 
 - **`om-auto-review-pr` collects existing reviewer feedback** (review bodies, conversation comments, and inline diff comments from humans, review bots, or earlier agent passes) as `INHERITED` findings: they count toward the verdict, are fixed by the autofix loop on eligible runs, and are always accounted for as fixed, deferred to a follow-up, or declined with a reason. The fixing chains (`om-auto-fix-pr`, `om-auto-fix-issue`) inherit this through their `--autofix` delegation — a comment a teammate left on the PR no longer needs to be re-raised by hand.
