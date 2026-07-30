@@ -14,10 +14,15 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
-## 2026-07-27 — reviews now pick up the feedback already posted on the PR
+## 2026-07-30 — GitHub descriptor: label, assignee, and body edits move to REST
 
-- **`om-auto-review-pr` collects existing reviewer feedback** (review bodies, conversation comments, and inline diff comments from humans, review bots, or earlier agent passes) as `INHERITED` findings: they count toward the verdict, are fixed by the autofix loop on eligible runs, and are always accounted for as fixed, deferred to a follow-up, or declined with a reason. The fixing chains (`om-auto-fix-pr`, `om-auto-fix-issue`) inherit this through their `--autofix` delegation — a comment a teammate left on the PR no longer needs to be re-raised by hand.
-- **New tracker operation `list-review-comments`** (a PR's inline review comments) — **re-sync your `.ai/trackers/<tracker>.md`** (or run `/om-apply-upgrade-notes`). Without it the review degrades to review bodies plus conversation comments and says so in its report, so nothing breaks on an older descriptor copy; inline feedback is simply out of reach until you re-sync.
+Labels stopped landing on PRs in some installations, with the run reporting a Projects (classic) deprecation error. The cause is the `gh` client, not your repository: GitHub retired the Projects (classic) GraphQL fields, and `gh pr edit` / `gh issue edit` on clients older than **2.82.1** request `projectCards` unconditionally, so `gh` aborts the whole edit *before* applying the label and exits non-zero printing only the deprecation notice.
+
+- The shipped `github.md` descriptor now performs every label, assignee, and title/body mutation through the REST API (`gh api`), which never touches those fields — so labels apply on any client version. The guard names and argument order (`apply_label "<label>" <n>`, `apply_issue_label`, `remove_issue_label`, `set_pipeline_label <n> "<label>"`) are unchanged, so no skill changes; a new additive `remove_label "<label>" <n>` helper replaces the inline `gh pr edit --remove-label` that `label-pr` used to document, and `tracker_repo` resolves cross-repo targets inside the guards.
+- **auth-check** additionally warns when `gh` is older than 2.82.1, and Prerequisites now carry the recognition rule (this error always means a stale client), the upgrade commands, and the upstream references.
+- `label_exists` / **list-labels** now page through the REST labels endpoint instead of `gh label list --limit 200`, so repos with more than 200 labels stop silently missing some.
+- **Re-sync `.ai/trackers/github.md`** to pick this up — see *Notable upgrades* below for the symptom and the merge instructions. Custom providers: `TEMPLATE.md` gained the general rule (mutate through the narrowest API surface; never depend on fields you do not change) and the widened **auth-check** contract.
+- Independently of the descriptor, **upgrade `gh` to ≥ 2.82.1**. Read paths keep the coupling — `gh issue view` / `gh pr view` without `--json` still render the classic project column. Distro packages lag badly (Debian bookworm 2.23, Ubuntu 2.45, Alpine stable 2.72, all affected); install from GitHub's own package repositories or Homebrew.
 
 ## 2026-07-25 — New skill: om-brainstorm (the conversation before the pipeline)
 
@@ -107,6 +112,14 @@ preserving the rest of the config.
 ## Notable upgrades
 
 Newest first. Each entry lists the symptom you will see with a stale installation and the fix.
+
+### 2026-07 — GitHub descriptor: REST-based label/assignee/body mutations + a `gh` version floor
+
+The shipped `github.md` moved every label, assignee, and title/body mutation off `gh pr edit` / `gh issue edit` and onto the REST API (`gh api`), because GitHub's Projects (classic) sunset makes those two commands abort on clients older than `gh` 2.82.1. **auth-check** now also warns about a stale client, and the guards resolve cross-repo targets themselves via `tracker_repo`.
+
+- **Symptom of a stale descriptor:** a run reports it applied the pipeline labels, but the PR stays unlabeled (or keeps the previous pipeline label), and the log carries `GraphQL: Projects (classic) is being deprecated … (repository.pullRequest.projectCards)`. Depending on how the run handles the non-zero exit, it either stops mid-way through the label set — leaving a PR with, say, a category label but no pipeline label — or continues and reports success it did not achieve. The same error on `assign-pr` breaks the claim protocol, so concurrent automation no longer backs off; on **update-pr** / **update-issue** it silently leaves the old body in place.
+- **Fix:** re-sync `.ai/trackers/github.md` as described above. The merge units are the `## Label guards` block (take the new REST guards wholesale — the guard names and argument order are unchanged, so local callers keep working) and the `#### auth-check`, `#### update-issue`, `#### assign-issue / unassign-issue`, `#### update-pr`, `#### assign-pr / unassign-pr`, `#### label-pr / unlabel-pr`, and `#### list-labels` sections. If your copy has local edits inside the guards, port them onto the REST bodies rather than keeping the `gh pr edit` forms. Custom providers: apply the new `TEMPLATE.md` rule — mutate through the narrowest API surface the tracker offers, and treat **auth-check** as covering client-version compatibility, not just credentials.
+- **Also upgrade `gh` itself to ≥ 2.82.1** on every machine and CI runner that runs these skills. The descriptor change keeps mutations working on old clients, but read paths (`gh issue view` / `gh pr view` without `--json`) still fail, and `projectCards` must never appear in a `--json` field list on any version.
 
 ### 2026-07 — `update-pr` tracker operation + spec→feature PR reframe (PR #46)
 
