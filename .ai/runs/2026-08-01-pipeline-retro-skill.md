@@ -28,26 +28,28 @@ The classifier was written against a real corpus before it was written into a sk
 
 ```
 clean single pass          125   median  1.9h to merge  p90  22.8h
-hard recovery               36   median 22.5h           p90 105.8h
+hard recovery               38   median 22.8h           p90 100.8h
 loop checkpoints (design)    2   median  3.3h
-second pass, no cause        36   median  8.0h          p90  18.5h
+second pass, no cause       34   median  7.0h           p90  18.2h
 in flight, not classified    2
 
 hard recovery by change size:  8% under +200 added lines
-                              11% at 200-600
+                              14% at 200-600
                               40% above +600
 
 ranked causes (excess hours beyond a 1.9h clean run, split across a request's causes):
-  change requested by a reviewer   25 requests   371h
-  review could not be recorded     30 requests   337h
-  base moved under the change      13 requests   320h
-  cause not stated                 23 requests   167h
-  run did not finish                3 requests    48h
+  change requested by a reviewer   26 requests   419h
+  review could not be recorded     31 requests   360h
+  base moved under the change      17 requests   354h
+  cause not stated                 20 requests   222h
+  run did not finish                6 requests    74h
+
+declared Outcome lines found: 0 of 199
 ```
 
-Two findings came straight out of that corpus without any change to the collection, which is the argument for the skill existing at all. The reviewing step could not record a formal verdict on 69 of the classified requests, because the tracker refuses an approval from the account that authored the request; in 71 requests across the whole corpus no formal approval exists at all, so the verdict lives only as a comment. And base movement remains the most expensive stated recovery cause per request, at 320 hours over 13 requests.
+Two findings came straight out of that corpus without any change to the collection, which is the argument for the skill existing at all. The reviewing step could not record a formal verdict on 31 of the requests that took a second pass, and on 69 across the classified window, because the tracker refuses an approval from the account that authored the request; in 71 requests across the whole corpus no formal approval exists at all, so the verdict lives only as a comment. And base movement costs 354 hours over 17 requests, the most per request of any stated cause.
 
-These are the numbers after an adversarial review of the first draft, not before it. The first classifier counted a run per marker comment, so a single review that ran longer than an hour was reported as a second review round: it over-reported clean runs as rework and, once cause detection also stopped matching negated prose ("uninterrupted") and quoted text, sixteen requests moved from a fabricated cause into the honest unexplained bucket. The corrected classifier counts runs from the claim boilerplate's opening comments and reads only agent-authored, unquoted text.
+These are the numbers after an adversarial review of the first draft, not before it. The first classifier counted a run per marker comment, so a single review that ran longer than an hour was reported as a second review round: it over-reported clean runs as rework and, once cause detection also stopped matching negated prose ("uninterrupted") and quoted text, requests moved from fabricated causes into the honest unexplained bucket. The corrected classifier counts runs from the claim boilerplate's opening comments and reads only agent-authored, unquoted text.
 
 ## Design decisions
 
@@ -84,5 +86,5 @@ These are the numbers after an adversarial review of the first draft, not before
 
 ### Phase 3: What the report itself asks for next
 
-- [ ] 3.1 A machine-readable `Outcome:` line in the run-summary block of the PR-driving skills. On the validation corpus 20 of 67 second passes state no reason anywhere; the classifier already reads such a line where it exists, so the unexplained count is the measurement that would show the change working.
+- [ ] 3.1 A machine-readable `Outcome:` line in the run-summary block of the PR-driving skills. On the validation corpus not one of 199 classified requests carries such a line, and 34 second passes state no reason anywhere; the classifier already reads such a line where it exists, so the unexplained count is the measurement that would show the change working.
 - [ ] 3.2 Runner identity on commits, so a repository running several agents can tell which one produced a change. Today only one runner signs its work, which is why the skill classifies runs rather than actors.
