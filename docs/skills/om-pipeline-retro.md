@@ -10,9 +10,9 @@ The count it reports of second passes with no recorded cause is a measurement of
 
 ## Parameters
 
-- `--since <date-or-ref>` — how far back to look. Default: the last 30 days.
-- `--limit <n>` — the most pull requests to examine; each one costs a tracker call. Default: 30.
-- `--gap-minutes <n>` — how far apart two comments naming the same skill must be to count as separate runs. Default: 60.
+- `--since <YYYY-MM-DD>` — how far back to look. Default: 30 days ago.
+- `--limit <n>` — the most pull requests to examine per state, so a run examines up to twice this many and makes one tracker call for each. Default: 30.
+- `--gap-minutes <n>` — the fallback window for a skill that posts no opening comment: marker comments further apart than this count as separate runs. Default: 60.
 
 ## Works with
 

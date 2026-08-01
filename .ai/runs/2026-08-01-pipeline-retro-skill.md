@@ -11,11 +11,13 @@ Give any repository running this collection a read-only answer to one question i
 - `skills/om-pipeline-retro/references/agentic-setup.md`, `references/rules.md` — own copies of the standard step files, shared parts byte-identical to the canonical text, with this skill's specifics appended.
 - `skills/om-pipeline-retro/references/report-templates.md` — the report shapes, kept out of the body so an unused table costs no tokens.
 - `skills/om-setup-agent-pipeline/references/skill-coverage.md` — roster entry, so a missing install is distinguishable from an unrelated token.
-- `docs/skills/om-pipeline-retro.md`, `docs/skills/README.md`, `README.md` — the documentation card and the two index rows.
+- `skills/om-setup-agent-pipeline/references/trackers/TEMPLATE.md`, `.../github.md`, `.ai/trackers/github.md` — `createdAt`, `closedAt`, `additions`, `changedFiles` join the documented `get-pr` field set and `createdAt` joins the merged and closed `list-prs` queries, because the skill's timing and size figures were reading fields the contract never promised.
+- `UPGRADE_NOTES.md`, `DECISIONS.md` — the descriptor re-sync a custom tracker needs, and the two choices worth recording.
+- `docs/skills/om-pipeline-retro.md`, `docs/skills/README.md`, `README.md` — the documentation card, the two index rows, and the skill count.
 
 ## Non-goals
 
-- No change to any existing skill's behaviour, templates, or contracts. This is additive: one new directory plus a roster line and three documentation rows.
+- No change to any existing skill's behaviour or templates. The tracker contract gains four documented fields on operations that already exist, which is the additive path `BACKWARD_COMPATIBILITY.md` prescribes, and every shipped descriptor is updated in this same change.
 - No new tracker operation. The skill composes **list-prs** and **get-pr**, both already in the descriptor contract, so every provider that implements the contract supports it unchanged.
 - No new config key. Window and limit are arguments, not settings.
 - No write path of any kind. Filing an issue is a handoff to `om-prepare-issue`, gated on the user.
@@ -25,26 +27,36 @@ Give any repository running this collection a read-only answer to one question i
 The classifier was written against a real corpus before it was written into a skill: 416 pull requests and 1749 branch commits from a public repository that runs this collection, of which 198 carry agent run markers.
 
 ```
-clean single pass          131   median 1.9h to merge   p90  22.8h
-hard recovery               45   median 19.1h           p90 102.7h
-loop checkpoints (design)    2   median 4.9h            p90   6.8h
-second pass, no cause        20   median 9.4h           p90  22.5h
+clean single pass          125   median  1.9h to merge  p90  22.8h
+hard recovery               36   median 22.5h           p90 105.8h
+loop checkpoints (design)    2   median  3.3h
+second pass, no cause        36   median  8.0h          p90  18.5h
+in flight, not classified    2
 
-hard recovery by change size:  9% under +200 added lines
-                              14% at 200-600
-                              49% above +600
+hard recovery by change size:  8% under +200 added lines
+                              11% at 200-600
+                              40% above +600
+
+ranked causes (excess hours beyond a 1.9h clean run, split across a request's causes):
+  change requested by a reviewer   25 requests   371h
+  review could not be recorded     30 requests   337h
+  base moved under the change      13 requests   320h
+  cause not stated                 23 requests   167h
+  run did not finish                3 requests    48h
 ```
 
-Two findings came straight out of that corpus without any change to the collection, which is the argument for the skill existing at all: the reviewing step could not record a formal verdict on 82 of 243 marker-carrying requests (in 71 of them no formal approval exists at all, so the verdict lives only as a comment), and base movement is the most common stated recovery cause, appearing in 32 requests and in 17 of the 45 hard recoveries.
+Two findings came straight out of that corpus without any change to the collection, which is the argument for the skill existing at all. The reviewing step could not record a formal verdict on 69 of the classified requests, because the tracker refuses an approval from the account that authored the request; in 71 requests across the whole corpus no formal approval exists at all, so the verdict lives only as a comment. And base movement remains the most expensive stated recovery cause per request, at 320 hours over 13 requests.
 
-The shipped `classify-runs.sh` reproduces those class counts, size buckets, and cause ranking exactly, which is how it was checked: a reference implementation and the shipped one must agree on the same input before either is trusted.
+These are the numbers after an adversarial review of the first draft, not before it. The first classifier counted a run per marker comment, so a single review that ran longer than an hour was reported as a second review round: it over-reported clean runs as rework and, once cause detection also stopped matching negated prose ("uninterrupted") and quoted text, sixteen requests moved from a fabricated cause into the honest unexplained bucket. The corrected classifier counts runs from the claim boilerplate's opening comments and reads only agent-authored, unquoted text.
 
 ## Design decisions
 
 - **Bash and `jq`, not Python.** The collection requires POSIX-ish portable shell in skills and states outright never to assume `python3` exists, while `jq` is already a prerequisite of the tracker descriptor. A Python reference implementation was written first for validation and is not shipped.
 - **The script lives under `references/`.** That is the only location the reference-resolution gate verifies, so a broken pointer fails CI instead of failing at runtime in a user's repository. No skill in the collection ships an executable today; this is a new pattern, which is why the body also states the inline fallback and the file carries its rules in a comment header.
 - **No `## Chaining` section and no chaining reference lines.** The contract binds that section on `om-auto-*` skills. More importantly the report is about requests this run did not create, so a line-anchored `PR:` line would be read by a chained consumer as this run's subject. Requests are linked inline instead.
-- **Second pass is not failure.** Loop-mode checkpoints are classified separately rather than counted as rework, and a run whose record states no reason is reported as unexplained rather than guessed at. On the validation corpus those two distinctions moved 22 requests out of the rework bucket.
+- **Second pass is not failure.** Loop-mode checkpoints are classified separately rather than counted as rework, and a run whose record states no reason is reported as unexplained rather than guessed at. A request still carrying the in-progress label is not a finished run at all and is counted nowhere.
+- **Runs are counted from their opening comment**, the one the claim boilerplate posts ("started by", "taking over"), not from marker density. Each skill posts several marker comments per run, so counting occurrences reports a long run as two.
+- **A request's excess time is split across its causes**, so the ranked column sums to the hours actually lost instead of billing the same delay to every cause it touched.
 
 ## Risks
 
@@ -62,6 +74,8 @@ The shipped `classify-runs.sh` reproduces those class counts, size buckets, and 
 - [x] 1.2 `SKILL.md`, the three reference files, and the documentation card
 - [x] 1.3 Roster entry and the two index rows
 - [x] 1.4 `bash scripts/lint.sh` and `node scripts/test-browser-providers.mjs` both green
+- [x] 1.5 Adversarial review of the draft, and the four blocking defects it found: run counting, the descriptor field contract, closed-unmerged pricing, and a read-only skill that would have run the setup skill on a repository without a pipeline
+- [x] 1.6 `get-pr` and `list-prs` field sets extended in `TEMPLATE.md`, the shipped GitHub descriptor, and this repo's installed copy, with an `UPGRADE_NOTES.md` entry
 
 ### Phase 2: Review and land
 

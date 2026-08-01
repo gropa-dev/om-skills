@@ -14,6 +14,16 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-08-01 — New skill: om-pipeline-retro, and four fields added to the tracker contract
+
+**New skill.** `om-pipeline-retro` classifies finished pipeline runs from the tracker and ranks what second passes cost in wall-clock hours. Read-only. Install it with:
+
+```bash
+npx skills add open-mercato/skills --skill om-pipeline-retro
+```
+
+**Tracker descriptor re-sync required.** The `get-pr` field set now documents `createdAt`, `closedAt`, `additions`, and `changedFiles`, and the merged and closed `list-prs` queries return `createdAt`. Custom descriptors under `.ai/trackers/` must add the same fields, or `om-pipeline-retro` reports every hour figure as null and says so in its coverage note. `om-apply-upgrade-notes` re-syncs the shipped GitHub descriptor; a hand-written provider needs the fields added by hand.
+
 ## 2026-07-30 — GitHub descriptor: label, assignee, and body edits move to REST
 
 Labels stopped landing on PRs in some installations, with the run reporting a Projects (classic) deprecation error. The cause is the `gh` client, not your repository: GitHub retired the Projects (classic) GraphQL fields, and `gh pr edit` / `gh issue edit` on clients older than **2.82.1** request `projectCards` unconditionally, so `gh` aborts the whole edit *before* applying the label and exits non-zero printing only the deprecation notice.

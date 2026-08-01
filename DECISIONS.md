@@ -196,6 +196,13 @@ The loop engines code-reviewed once, at the end of the run — so on a long run 
 
 Every entry point into the collection consumed an artifact — a brief, an issue, a spec, or a PR — so the divergent phase that produces the brief (question the problem, weigh alternatives, decide whether to build at all) happened outside the pipeline, and orchestrators had no conversation-shaped run to offer. `om-brainstorm` is that phase as a skill: interactive-only per the naming contract (no `auto` prefix, no autonomous mode — an unattended invocation stops and reports), read-only on the repository except one user-confirmed handoff brief under `${SPECS_DIR}/briefs/`. Its machinery is the generalized core of the removed `om-app-spec-writing` (challenger subagent, HARD-GATE, ask-the-user-only-what-has-no-other-source), inverted from batched gate questions to open questions one at a time. The conclusion is a machine-parsed routing contract — `Next: none` | `Next: om-<skill> <args>` plus `Brief: <path>` — so the human phase ends in exactly one place and the autonomous pipeline takes over from there. Base ramps route only to collection skills; repo-specific ramps (e.g. an app-spec authoring skill) belong in the repo-local `.ai/skills/om-brainstorm` extension, which may add ramps but never remove the confirmation gate or widen the write surface. The tracker check is deliberately optional and read-only (search-issues / search-prs / get-issue, never auto-running setup): a brainstorm must run in a repo with no pipeline configured at all.
 
+## 2026-08-01 — A retro skill reads the pipeline's own history, and ships the first executable
+
+`om-pipeline-retro` classifies finished runs rather than open ones, so the collection can measure what its own second passes cost instead of arguing about it. Read-only by construction: it never claims, mutates, or files anything, and hands a cause to `om-prepare-issue` only when the user asks.
+
+Two choices worth recording. The deterministic classifier ships as a shell script under `references/` rather than under a per-skill `scripts/` directory, because `scripts/lint.sh` resolves every `references/…` pointer and would catch a broken one in CI, where a `scripts/` path is unchecked; it is the collection's first shipped executable, and the skill body carries an inline fallback so a harness that cannot spawn a shell still reaches the same classes. Run counting keys on the claim boilerplate's opening comments ("started by", "taking over") rather than on marker density, because a single run posts several marker comments and time-clustering alone reported ordinary runs as rework.
+
+
 ## Deferred
 
 - A bespoke `npx open-mercato-skills` installer CLI. skills.sh covers installation in v1.

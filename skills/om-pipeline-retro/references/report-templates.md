@@ -16,10 +16,14 @@ Examined {examined} finished runs of {total} in the window ({since} → today), 
 | ✅ Clean single pass | 131 | 66% | 1.9h | 22.8h |
 | ⚠️ Hard recovery | 45 | 23% | 19.1h | 102.7h |
 | 🔁 Loop checkpoints (by design) | 2 | 1% | 4.9h | 6.8h |
-| ⛔ Second pass, cause not stated | 20 | 10% | 9.4h | 22.5h |
+| ⛔ Second pass, cause not stated | 36 | 18% | 8.0h | 18.5h |
+
+{in-flight line}
 ```
 
-`{degradation}` states what weakened the classification, or is omitted when nothing did: comment timestamps missing (run counts are an upper bound), `labels.enabled` false (classified from timestamps, reviews, and CI alone), or `--limit` truncating the window.
+`{in-flight line}` appears only when the classifier reports requests in flight: `2 requests are still in flight and were not classified: [#812](url), [#815](url).`
+
+`{degradation}` states what weakened the classification, or is omitted when nothing did: `labels.enabled` false (classified from timestamps, reviews, and CI alone), or `--limit` truncating the window. When the classifier reports `timestampCoverage.reliable` as false, that sentence comes first and quotes the classifier's own note — with no timestamps at all the class counts are an upper bound that must not be compared against a timestamped window, and saying so is more useful than the table beneath it.
 
 ## Ranked causes
 
@@ -33,6 +37,8 @@ Examined {examined} finished runs of {total} in the window ({since} → today), 
 ```
 
 Rank by hours, ties by run count, exactly as the classifier ordered them. When one cause dominates, say so plainly rather than presenting the table as a flat list.
+
+A request carrying several causes has its excess split evenly between them, so the column sums to the time actually lost rather than double-counting it — say so beneath the table. When the window holds no clean run there is no baseline, the classifier reports every `excessHours` as null, and the table ranks by request count with a sentence saying why the hours column is empty.
 
 ## Runs that state no cause
 
