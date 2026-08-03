@@ -103,7 +103,7 @@ review-loop parenthetical, then the full configured gate (`bash scripts/lint.sh`
 
 ### Phase 1: The adoption procedure
 
-- [ ] 1.1 Write `skills/om-auto-continue-pr/references/adopt-pr.md`
+- [x] 1.1 Write `skills/om-auto-continue-pr/references/adopt-pr.md` — 421dc01
 
 ### Phase 2: Wire adoption into the skill body
 
