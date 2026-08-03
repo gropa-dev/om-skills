@@ -11,6 +11,8 @@ Reach this procedure from either of two places in the skill body, and only after
 - **Step 2** — no tracking plan can be resolved: the PR body has no `^Tracking plan:` line and the diff against `origin/$BASE_BRANCH` contains no new file under `$RUNS_DIR`.
 - **Step 4** — a plan was resolved but its `## Progress` section is missing, malformed, or ambiguous, and no `--from <phase.step>` was passed. Here you **repair** rather than replace: keep the existing plan file and its prose, and append (or rewrite) only the `## Progress` section from the phases you reconstruct, noting the repair in the plan under the Progress heading.
 
+**Prerequisite — the PR head must be checked out first.** The evidence sweep reads the branch history and the plan is committed on the PR head, so the isolated worktree of the skill body's step 3 has to exist before you start. When adoption triggers from step 2, create that worktree first and then come here; the step-4 entry point already runs after it. Step 3's `trap`/finally cleanup covers the adoption path too, including the `ask` mode stop below.
+
 Do **not** adopt when step 2 found **several** candidate plans — that is genuine ambiguity about which run to resume, and the skill body's existing behavior (stop and ask which one, or accept `--from`) still applies. Do not adopt when `--adopt off` was passed; report the missing plan and stop, which is the pre-adoption behavior.
 
 ## Guardrails — what adoption never does
@@ -143,7 +145,7 @@ Land all three before implementing anything, in this order, so a crash leaves th
 ## 4. Continue or hand back
 
 - **`auto`** → return to the skill body and continue at step 5 from the first `- [ ]` line, exactly as for a plan this pipeline wrote.
-- **`ask`** → stop here. Report the reconstructed plan to the user (the step-10 report template, with the resume point named as the first `- [ ]` line), state plainly that nothing has been implemented yet, and give the two ways forward: confirm by re-running `/om-auto-continue-pr {prNumber}`, or amend the committed plan first. Release the `in-progress` lock on the way out per `references/claim-pr.md` — a run that is waiting on a human is not holding the PR.
+- **`ask`** → stop here. Report the reconstructed plan to the user (the step-10 report template, with the resume point named as the first `- [ ]` line), state plainly that nothing has been implemented yet, and give the two ways forward: confirm by re-running `/om-auto-continue-pr {prNumber}`, or amend the committed plan first. Release the `in-progress` lock on the way out per `references/claim-pr.md` — a run that is waiting on a human is not holding the PR — and let the step-3 cleanup remove the worktree you created (`references/worktree-setup.md`).
 
 Either way, this resume's step-8 summary comment (`references/summary-comment-template.md`) adds one extra line under its "Summary of changes" section naming the provenance: that the plan was reconstructed by adoption, and where the reasoning lives (the adoption comment).
 
