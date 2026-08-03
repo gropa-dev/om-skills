@@ -113,7 +113,7 @@ review-loop parenthetical, then the full configured gate (`bash scripts/lint.sh`
 
 ### Phase 3: Close the loop variant's dead end
 
-- [ ] 3.1 `om-auto-continue-pr-loop` run-folder lookup hands off instead of erroring
+- [x] 3.1 `om-auto-continue-pr-loop` run-folder lookup hands off instead of erroring — 3623d22
 
 ### Phase 4: Documentation and validation
 
