@@ -107,9 +107,9 @@ review-loop parenthetical, then the full configured gate (`bash scripts/lint.sh`
 
 ### Phase 2: Wire adoption into the skill body
 
-- [ ] 2.1 Arguments, chaining note, and frontmatter description
-- [ ] 2.2 Steps 2, 4 and 5 — locate or reconstruct, then resume
-- [ ] 2.3 Rules bullets for adopted PRs
+- [x] 2.1 Arguments, chaining note, and frontmatter description — cbf0c48
+- [x] 2.2 Steps 2, 4 and 5 — locate or reconstruct, then resume — cbf0c48
+- [x] 2.3 Rules bullets for adopted PRs — cbf0c48
 
 ### Phase 3: Close the loop variant's dead end
 
