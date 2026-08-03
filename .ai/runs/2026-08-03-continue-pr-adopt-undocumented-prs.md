@@ -120,3 +120,4 @@ review-loop parenthetical, then the full configured gate (`bash scripts/lint.sh`
 - [x] 4.1 Docs page, README row, SDLC template parenthetical — 44a13bc
 - [x] 4.2 `UPGRADE_NOTES.md` entry — 44a13bc
 - [x] 4.3 Full validation gate (`bash scripts/lint.sh`) green — 44a13bc
+- [x] Post-review fix: adoption runs after the step-3 worktree exists (self-review found step 2 committing before checkout) — dfb7c88
