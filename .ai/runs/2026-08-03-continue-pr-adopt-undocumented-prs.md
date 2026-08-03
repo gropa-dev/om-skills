@@ -121,3 +121,4 @@ review-loop parenthetical, then the full configured gate (`bash scripts/lint.sh`
 - [x] 4.2 `UPGRADE_NOTES.md` entry — 44a13bc
 - [x] 4.3 Full validation gate (`bash scripts/lint.sh`) green — 44a13bc
 - [x] Post-review fix: adoption runs after the step-3 worktree exists (self-review found step 2 committing before checkout) — dfb7c88
+- [x] Post-review fix: add **list-review-comments** to TEMPLATE.md + the shipped github descriptor (adoption and om-auto-review-pr both name it; BACKWARD_COMPATIBILITY §3 requires it shipped), and trim the step-2 duplication out of the skill body — 9169ced
