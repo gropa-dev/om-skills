@@ -50,7 +50,7 @@ Copy this file to `.ai/trackers/{name}.md`, set `"tracker": "{name}"` in `.ai/ag
 
 ### Pull requests
 
-- **get-pr** — number, field list → PR data (see `github.md` for the full field set skills request).
+- **get-pr** — number, field list → PR data (see `github.md` for the full field set skills request). The set includes the request's own lifecycle and size facts: `createdAt`, `mergedAt`, `closedAt`, `additions`, `changedFiles`, and per-comment `createdAt` on `comments`. Serialize `state` as `OPEN`/`CLOSED`/`MERGED`, review states as `APPROVED`/`CHANGES_REQUESTED`/`COMMENTED`/`DISMISSED`, and every timestamp as ISO-8601.
 - **list-prs** — state/search filters, limit → PRs.
 - **search-prs** — free-text query (e.g. an issue reference), state → matching PRs.
 - **create-pr** — base branch, draft flag, title, body → PR URL + number.

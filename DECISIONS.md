@@ -206,6 +206,12 @@ Two consequences worth recording, because both look like defects until the reaso
 
 **Naming carve-out.** The skill is autonomous by default yet carries no `om-auto-` prefix, which `README.md` states as a convention. The prefix marks skills that take a *brief* and run end-to-end unsupervised; this one takes a PR number and dispatches, and naming it `om-auto-pr-autopilot` would stutter while `om-auto-pilot` would misdescribe it. The convention was already loose in exactly this direction (`om-review-prs` and `om-close-fixed-issues` are autonomous without the prefix), so the carve-out is recorded here rather than re-litigated per PR — and recorded *before* release, since `BACKWARD_COMPATIBILITY.md` §1 protects skill names and a later rename would require a deprecated alias kept for a release cycle.
 
+## 2026-08-01 — A retro skill reads the pipeline's own history, and ships the first executable
+
+`om-pipeline-retro` classifies finished runs rather than open ones, so the collection can measure what its own second passes cost instead of arguing about it. Read-only by construction: it never claims, mutates, or files anything, and hands a cause to `om-prepare-issue` only when the user asks.
+
+Two choices worth recording. The deterministic classifier ships as a shell script under `references/` rather than under a per-skill `scripts/` directory, because `scripts/lint.sh` resolves every `references/…` pointer and would catch a broken one in CI, where a `scripts/` path is unchecked; it is the collection's first shipped executable, and the skill body carries an inline fallback so a harness that cannot spawn a shell still reaches the same classes. Run counting keys on the claim boilerplate's opening comments ("started by", "taking over") rather than on marker density, because a single run posts several marker comments and time-clustering alone reported ordinary runs as rework.
+
 ## Deferred
 
 - A bespoke `npx open-mercato-skills` installer CLI. skills.sh covers installation in v1.

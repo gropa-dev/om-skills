@@ -26,7 +26,7 @@ These skills wrote and shipped a real product. Inside the [Open Mercato](https:/
 npx skills add open-mercato/skills --skill '*'
 ```
 
-Install all thirty-five — the pipeline composes, and every skill is small until invoked. Drop `--skill '*'` to cherry-pick interactively. Skills install for 22+ coding agents (Claude Code, Cursor, Codex, and others) via [skills.sh](https://skills.sh).
+Install all thirty-six — the pipeline composes, and every skill is small until invoked. Drop `--skill '*'` to cherry-pick interactively. Skills install for 22+ coding agents (Claude Code, Cursor, Codex, and others) via [skills.sh](https://skills.sh).
 
 Then, once per repository:
 
@@ -158,6 +158,7 @@ Interactive helpers (no `auto` in the name — the other half of the naming conv
 | [`om-setup-agent-pipeline`](docs/skills/om-setup-agent-pipeline.md) | One-per-repo configurator. Inspects the repository, asks a few questions, writes `.ai/agentic.config.json`, installs tracker and browser-provider descriptors, generates `SDLC.md` and an `AGENTS.md` starter when missing. Verifies cross-skill coverage: if an installed skill references one that isn't installed, it prints the exact `npx skills add` command to fix it. |
 | [`om-apply-upgrade-notes`](docs/skills/om-apply-upgrade-notes.md) | Post-upgrade migrator. Applies `UPGRADE_NOTES.md` to the repo: re-syncs installed tracker/browser descriptors while preserving local edits, reports custom-provider gaps, and checks the config against notable upgrades. |
 | [`om-merge-buddy`](docs/skills/om-merge-buddy.md) | Scans open PRs and reports which can merge now and which are close but blocked, based on labels, reviews, CI, and mergeability. |
+| [`om-pipeline-retro`](docs/skills/om-pipeline-retro.md) | Classifies runs the pipeline already finished — clean single pass, hard recovery, loop checkpoints, or a second pass with no recorded cause — and ranks the causes by the wall-clock hours they cost. Read-only; hands the top cause to `om-prepare-issue`. |
 | [`om-approve-merge-pr`](docs/skills/om-approve-merge-pr.md) | Approves and squash-merges a PR given only its number. Can file a follow-up issue at the same time. |
 | [`om-check-and-commit`](docs/skills/om-check-and-commit.md) | Runs the configured validation gate on the current branch, fixes obvious drift, then commits and pushes when green. |
 | [`om-followup-issue-from-pr`](docs/skills/om-followup-issue-from-pr.md) | Turns a PR or a PR comment into a tracked follow-up issue, assigned to the right person. |

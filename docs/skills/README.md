@@ -22,6 +22,7 @@ One card per skill, with its parameters and the companion skills it works with. 
 | [om-review-prs](om-review-prs.md) | 🧑‍💻 | Sweeps every unreviewed open PR, newest first, through the review skill. |
 | [om-close-fixed-issues](om-close-fixed-issues.md) | 🧑‍💻 | Post-merge housekeeping: closes issues merged PRs fixed, comments on closed-unmerged PRs. |
 | [om-merge-buddy](om-merge-buddy.md) | 🧑‍💻 | Reports which open PRs can merge now and which are close but blocked. |
+| [om-pipeline-retro](om-pipeline-retro.md) | 🧑‍💻 | Classifies finished runs and ranks what second passes cost, in wall-clock hours. |
 | [om-approve-merge-pr](om-approve-merge-pr.md) | 🧑‍💻 | Approves and squash-merges a PR by number, honoring the QA gate. |
 | [om-setup-agent-pipeline](om-setup-agent-pipeline.md) | 🧑‍💻 | One-per-repo configurator: writes the config, installs descriptors, generates project docs. |
 | [om-apply-upgrade-notes](om-apply-upgrade-notes.md) | 🧑‍💻 | Applies UPGRADE_NOTES.md after an upgrade, preserving local edits. |

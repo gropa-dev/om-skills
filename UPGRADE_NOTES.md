@@ -14,6 +14,16 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-08-01 — New skill: om-pipeline-retro, and four fields added to the tracker contract
+
+**New skill.** `om-pipeline-retro` classifies finished pipeline runs from the tracker and ranks what second passes cost in wall-clock hours. Read-only. Install it with:
+
+```bash
+npx skills add open-mercato/skills --skill om-pipeline-retro
+```
+
+**Tracker descriptor re-sync required.** The `get-pr` field set now documents `createdAt`, `closedAt`, `additions`, and `changedFiles`, and the merged and closed `list-prs` queries return `createdAt`. Custom descriptors under `.ai/trackers/` must add the same fields, or `om-pipeline-retro` reports every hour figure as null and says so in its coverage note. `om-apply-upgrade-notes` re-syncs the shipped GitHub descriptor; a hand-written provider needs the fields added by hand.
+
 ## 2026-07-28 — New skill: om-pr-autopilot (the "just finish this PR" entry point)
 
 - **New skill:** `om-pr-autopilot` — hand it one open PR number and it diagnoses the PR's actual state (plan progress, diff scope, review decision, unresolved conversations, CI against the required checks, mergeability, labels, QA evidence, claim state), maps that onto an ordered chain of the skills you already have, and runs the chain, re-diagnosing between steps. It dispatches only: every fix, review, CI repair, QA capture, and merge stays with the delegated skill.
