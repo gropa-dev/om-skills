@@ -14,7 +14,7 @@ never compress; emojis structure the sections, the text carries the meaning.
 **Autofix:** {ran — {n} findings fixed in {m} commits | skipped (not my PR — re-run with --autofix to fix it here) | n/a — nothing to fix}
 **Labels:** {🚀 `merge-queue` + 🧪 `needs-qa` | ❌ `changes-requested` | labels disabled in config} — {why, one sentence}
 **Draft state:** {promoted to ready via mark-pr-ready | left draft ({reason}) | already ready}
-**CI:** {✅ green — all {n} required checks passed | ❌ {check} failed, verdict moved to `changes-requested` | ⏱️ still pending at report time ({names}) — disclosed in the review body, follow-up owed | ⏱️ bail-out after {CI_MAX_WAIT_MINUTES} min — local validation gate stands in as evidence and no further follow-up will come from this run | n/a — no required checks}
+**CI:** {✅ green — all {n} required checks passed | ❌ {check} was already red at review time — reviewed anyway and reported as a blocker alongside the code findings | ❌ {check} failed during the follow-up, verdict moved to `changes-requested` | ⏱️ still pending at report time ({names}) — disclosed in the review body, follow-up owed | ⏱️ bail-out after {CI_MAX_WAIT_MINUTES} min — local validation gate stands in as evidence and no further follow-up will come from this run | n/a — no required checks}
 
 ### 🔍 Findings ({X} blocker · {Y} major · {Z} minor · {W} nit)
 - ⛔ {file:line} — {what is wrong and why it matters, full sentence} → {fixed in {sha} | handed back to author}
