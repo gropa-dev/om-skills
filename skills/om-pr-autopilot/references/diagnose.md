@@ -90,7 +90,10 @@ Run **get-pr-checks** for `{prNumber}` and **get-required-checks** for the PR's
 base branch. When required checks are unreadable (the operation reports the
 branch protection as unavailable), treat every reported check as required and
 say so. Record `ci: green | red(<names>) | pending | none`, and keep the link to
-each failing check for the chain step that will fix it.
+each failing check for the chain step that will fix it. **Pending is a state to
+record and disclose, never a state to wait out here** — the diagnosis is
+read-only and the chain reports on what it finds; any waiting happens once,
+bounded, after step 6 has published (`references/ci-followup.md`).
 
 ## 7. Mergeability
 
@@ -119,7 +122,9 @@ is a **hard merge block**; so are the failed-QA and do-not-merge/blocked states.
 
 The `in-progress` label, assignees other than `$CURRENT_USER`, and any 🤖 claim
 comment newer than the stale window from another actor. This feeds the claim
-decision in the skill body, not the classification.
+decision in the skill body, not the classification. `ci-monitoring` is **not** a
+claim signal: it says an earlier run finished and reported its work and owes only
+a CI-result comment, so record it as context and claim the PR normally.
 
 ---
 

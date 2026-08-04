@@ -26,6 +26,8 @@ This skill is a sweep, not a single-PR step: it finds every unreviewed open PR a
    - does not carry `in-progress`
    - has no assignee other than `$CURRENT_USER`
 
+   `ci-monitoring` is deliberately **absent** from that list: it is not a claim, only a note that an earlier run finished its work and still owes a CI-result comment, so a PR carrying it stays in the queue and is reviewed normally. Never add it to the filter.
+
    When `labels.enabled` is `false`, the label-based filters simply match nothing; keep the draft, review-decision, author, and assignee filters, and treat a foreign assignee as the claim signal. Claim-signal semantics (read-only in batch mode): `references/claim-pr.md`.
 
 3. **Sort newest first.** Most recently created PRs are reviewed first.

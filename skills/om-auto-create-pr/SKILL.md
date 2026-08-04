@@ -112,6 +112,7 @@ A previous skill may already have opened a PR for this work (e.g. `om-auto-write
 ## Rules
 
 - Shared rules: `references/rules.md` — autonomous-run contract, emoji glossary, label discipline, secrets, markers. They always apply.
+- **Reporting never waits for CI.** The full label set, the summary comment, the lock release, and the draft→ready promotion land the moment the work is done — never held back for a green run. A required check still pending is disclosed in the summary comment, not waited on; a process that dies watching CI must leave a fully labeled, fully reported PR behind, not a stranded draft. When the run does follow up on CI, it swaps `in-progress` for the `ci-monitoring` meta label (never a claim, never a pipeline label) and drops it once the follow-up lands or the `ci.maxWaitMinutes` budget (default 40) expires. `om-auto-review-pr` owns the bounded CI follow-up for this chain; none of this relaxes a merge gate — required checks still gate the merge and merge skills still refuse until they are genuinely green.
 - Engine routing is deterministic — `--loop` or a plan exceeding `engine.loopStepThreshold` Steps hands the run to `om-auto-create-pr-loop` before anything is committed; nothing else selects the loop (`references/engine-selection.md`).
 - Never commit code before the execution plan lands on the chosen `feat/` or `fix/` branch.
 - The plan MUST include the Progress section in the exact format above so `om-auto-continue-pr` can parse it.

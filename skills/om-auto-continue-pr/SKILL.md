@@ -80,6 +80,7 @@ This skill resumes an existing PR: it consumes a `{prNumber}` and reads the PR b
 ## Rules
 
 - Shared rules: `references/rules.md` — autonomous-run contract, claim etiquette, label discipline, secrets hygiene, marker contract, emoji glossary. They always apply.
+- **Reporting never waits for CI.** The full label set, the summary comment, the lock release, and the draft→ready promotion land the moment the work is done — never held back for a green run. A required check still pending is disclosed in the summary comment, not waited on; a process that dies watching CI must leave a fully labeled, fully reported PR behind, not a stranded draft. When the run does follow up on CI, it swaps `in-progress` for the `ci-monitoring` meta label (never a claim, never a pipeline label) and drops it once the follow-up lands or the `ci.maxWaitMinutes` budget (default 40) expires. `om-auto-review-pr` owns the bounded CI follow-up for this chain; none of this relaxes a merge gate — required checks still gate the merge and merge skills still refuse until they are genuinely green.
 - Always run the step 1 claim check before any other action; never silently override another actor's lock; always release the `in-progress` lock at the end, even on failure (trap/finally).
 - Always use an isolated worktree; reuse the current linked worktree when already inside one; never nest worktrees.
 - Resolve the tracking plan per step 2; never invent a plan path.

@@ -68,6 +68,7 @@ Report the created issue URL in the final summary. If no follow-up was provided,
 
 - Shared rules: `references/rules.md` — claim etiquette, label discipline, secrets hygiene, markers, emoji glossary. They always apply.
 - One PR per invocation unless the user lists several.
+- **Posting early is fine; merging early is not.** Other skills in this collection submit reviews, apply labels, and post comments as soon as their work is done — without waiting for CI — and some of them bail out of a CI wait at `ci.maxWaitMinutes` and report a local validation run as their own evidence. None of that authorizes a merge here: this skill merges only when required checks are genuinely green, or queues the descriptor's merge-once-checks-pass option so the tracker enforces it. A local gate is never a substitute for branch protection, and a PR labeled `ci-monitoring` (work reported, CI follow-up still owed) is neither merge-approved nor claimed.
 - Never merge past the QA gate: while `qaGate` is `true`, a `needs-qa` PR without `qa-approved` is not mergeable — refuse and explain how to satisfy the gate (step 2). Do not merge until the labels change.
 - `qa-failed`, `do-not-merge`, and `blocked` are hard blocks — never merge over them; surface the blocker instead.
 - Never use an admin override to bypass branch protection unless the user explicitly asks.

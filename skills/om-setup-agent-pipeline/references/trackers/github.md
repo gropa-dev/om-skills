@@ -40,7 +40,7 @@ Upstream references: cli/cli#11983 (`gh pr edit` aborts without any project flag
 - A `--json` field list must never include `projectCards`: it is a Projects (classic) relic that errors on every client version (see above). Request only the fields the calling skill names.
 - A PR is linked to the issue it resolves with `Fixes #{issueId}` (or `Closes #{issueId}`) in the PR body; GitHub then closes the issue on merge. To reference without auto-closing, use a plain issue link.
 - PRs open as **drafts** when a skill says so; a human (or **mark-pr-ready**) promotes them.
-- Claim/lock signals on an issue or PR are: assignee set to the automation user, the `in-progress` label, and a `🤖`-prefixed claim comment. All three are set on claim; the label is guarded (below).
+- Claim/lock signals on an issue or PR are: assignee set to the automation user, the `in-progress` label, and a `🤖`-prefixed claim comment. All three are set on claim; the label is guarded (below). The `ci-monitoring` label is **not** a claim signal — it marks work that is finished and reported while its CI-result follow-up is still owed, and never makes another skill back off.
 - Long, multi-line comment bodies are posted with `--body-file` (or a heredoc via process substitution) so formatting is preserved.
 - CI status truth comes from **get-pr-checks**; the set of *required* checks comes from **get-required-checks** (branch protection). When branch protection is not readable (404), treat every reported check as required.
 
@@ -439,6 +439,7 @@ gh label create skip-qa           --color 0e8a16 --description "Low risk, QA not
 gh label create qa-approved       --color 0e8a16 --description "Manual QA passed"
 gh label create qa-self-verified  --color c5def5 --description "Self-QA exception used"
 gh label create in-progress       --color c5def5 --description "An automated skill is working on this"
+gh label create ci-monitoring     --color d4c5f9 --description "Work complete and reported; agent is watching CI results"
 gh label create do-not-close      --color c5def5 --description "Humans only: never auto-close this issue"
 gh label create priority-low      --color e4e669 --description "Cosmetic or follow-up work"
 gh label create priority-medium   --color fbca04 --description "Ordinary bug or feature"

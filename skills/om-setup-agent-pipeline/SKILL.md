@@ -28,11 +28,12 @@ Every skill in this collection reads its repository-specific settings from `.ai/
     "enabled": true,
     "pipeline": ["review", "changes-requested", "qa", "qa-failed", "merge-queue", "blocked", "do-not-merge"],
     "category": ["bug", "feature", "refactor", "security", "dependencies", "documentation"],
-    "meta": ["needs-qa", "skip-qa", "qa-approved", "qa-self-verified", "in-progress"],
+    "meta": ["needs-qa", "skip-qa", "qa-approved", "qa-self-verified", "in-progress", "ci-monitoring"],
     "priority": ["priority-low", "priority-medium", "priority-high", "priority-extreme"],
     "risk": ["risk-low", "risk-medium", "risk-high"]
   },
   "qaGate": true,
+  "ci": { "maxWaitMinutes": 40 },
   "engine": { "loopStepThreshold": 20, "executorTier": "standard", "stepReview": "final" },
   "paths": {
     "runs": ".ai/runs",
@@ -54,10 +55,11 @@ Field reference:
 - `labels.enabled` — when `false`, skills skip every label operation and note that in their PR summaries. Use this for repos that do not want the label workflow.
 - `labels.pipeline` — mutually exclusive workflow states. A PR carries at most one.
 - `labels.category` — additive kind-of-change labels.
-- `labels.meta` — additive process labels. `needs-qa` requests manual QA; `skip-qa` opts out (never combine the two); `qa-approved` records that QA passed; `qa-self-verified` marks the self-QA exception; `in-progress` is the claim lock automated skills apply while working. One label lives outside the config taxonomy: `do-not-close`, applied by humans to issues that housekeeping skills must never auto-close — skills only ever read it.
+- `labels.meta` — additive process labels. `needs-qa` requests manual QA; `skip-qa` opts out (never combine the two); `qa-approved` records that QA passed; `qa-self-verified` marks the self-QA exception; `in-progress` is the claim lock automated skills apply while they are **actively working** the item; `ci-monitoring` says the work is finished and fully reported — labels applied, review submitted, comments posted — and the agent is only watching the CI run, so it is **not** a claim and another agent or a human may act on the PR freely (it means one thing only: the CI-result follow-up comment is still owed). One label lives outside the config taxonomy: `do-not-close`, applied by humans to issues that housekeeping skills must never auto-close — skills only ever read it.
 - `labels.priority` — mutually exclusive urgency of the work. Unset is treated as medium.
 - `labels.risk` — mutually exclusive blast radius of the change. Unset is treated as medium. Priority is how urgent the work is; risk is how dangerous the change is to ship.
 - `qaGate` — when `true`, a PR carrying `needs-qa` must not merge until it also carries `qa-approved`, even when every other check is green. When `false`, `needs-qa` is advisory only.
+- `ci.maxWaitMinutes` — the hard cap, in minutes, on how long any skill waits for CI to settle before it stops waiting (default `40`). It is a safety valve, not a merge gate: when the budget runs out the skill runs the local `validation.commands` gate as its completion evidence, posts the bail-out comment, drops `ci-monitoring`, and exits cleanly instead of hanging on a run that may take hours. Raise it for slow pipelines, lower it for fast ones; `0` disables waiting entirely (report immediately and never follow up). Required checks still gate the actual merge no matter what this is set to.
 - `engine.executorTier` — optional; the default abstract model tier (`cheap` / `standard` / `capable`) for executor subagents dispatched by the loop skills when a Tasks-table `Exec` cell names none. Harnesses that support subagent model selection map the tier onto their closest model class; others ignore it. Configs without the key behave as `standard`.
 - `engine.loopStepThreshold` — the Step count above which `om-auto-create-pr` hands a run off to `om-auto-create-pr-loop` (default 20). Raise it to keep more runs on the cheaper plain engine; `--loop` always forces the loop regardless.
 - `engine.stepReview` — optional; how often the loop skills code-review landed work mid-run: `final` (default — only the authoritative end-of-run review), `checkpoint` (review the diff at every checkpoint pass), or `per-step` (review each Step's commit as it lands). Blocker/major findings are fixed immediately as `X.Y-review-fix` Steps; minors defer to the final review, which runs in every mode.
