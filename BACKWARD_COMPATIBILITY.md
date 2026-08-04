@@ -62,6 +62,15 @@ The pipeline/category/meta/priority/risk groups, their exclusivity rules, and th
 - **Breaking:** renaming a label, changing a group's exclusivity, weakening the QA gate rule.
 - **Required path:** additive labels only; renames need a documented migration note and support for both names in the skills for one release cycle.
 
+Adding the `ci-monitoring` meta label is additive and follows that path: it is a new
+meta label (never a pipeline label, so exclusivity is untouched), every skill applies
+and removes it through the existing `apply_label` guard so a repo that has not created
+it degrades to a logged skip, and no existing label's meaning changed. Its one
+semantic claim on the taxonomy is a narrowing of `in-progress`: that label now means
+*actively working*, and a run that has finished and reported its work swaps to
+`ci-monitoring` while it waits on CI. Claim detection must therefore never treat
+`ci-monitoring` as a lock signal.
+
 ### 7. Installer CLI (`package.json` scripts, `scripts/install-skills.mjs`)
 
 `npm run install-skills` / `uninstall-skills` flags and behavior, and the skills.sh-compatible repo layout it relies on.
