@@ -61,9 +61,13 @@ alone:
 Append this section immediately after the per-pair table when step 3 recorded
 unmatched mentions: PRs in the window that mention `#N` but carry no close
 signal at all — empty `closingIssuesReferences` and no keyword from
-`$CLOSE_KEYWORDS`. These are never closed and never commented on; the section
-exists so the gap is **visible** instead of vanishing into a clean-looking
-`closed 0`:
+`$CLOSE_KEYWORDS`. Only numbers step 3 resolved to **open issues** appear here;
+mentions that turned out to be pull requests (`Supersedes #1415`, "follow-up to
+#1420") or already-closed issues are dropped rather than listed, so the section
+stays actionable instead of restating every cross-reference in the window.
+These rows are never closed and never commented on — the section exists so the
+gap is **visible** instead of vanishing into a clean-looking `closed 0`, and it
+prints under `--dry-run` too:
 
 ```markdown
 ### ⚠️ Issue mentions without a recognized closing keyword
@@ -71,7 +75,7 @@ exists so the gap is **visible** instead of vanishing into a clean-looking
 | PR | Mentions | Why it was skipped |
 |----|----------|--------------------|
 | #1433 | #1401, #1402 | The PR body mentions both issues but contains no recognized close keyword, and the tracker returned no `closingIssuesReferences`, so this run had no authority to close either one. |
-| #1430 | #1399 | The only reference is a bare `#1399` mention, which this skill treats as conversational rather than as a close link. |
+| #1430 | #1399 | The only reference is a bare `#1399` mention — an open issue, but a conversational reference rather than a close link, so this run had no authority to act on it. |
 
 The close-keyword vocabulary in effect for this run was the built-in English
 list plus {configuredCount} keyword(s) from `closeKeywords` in

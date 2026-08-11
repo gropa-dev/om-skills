@@ -171,5 +171,29 @@ assert.match(
   /Never close or comment on an unmatched mention/,
   "om-close-fixed-issues: unmatched mentions are diagnosis only — never a mutation",
 );
+// #N is one namespace for issues and PRs. Without resolving each candidate, the
+// skill's own `Supersedes #{prNumber}` convention would be reported as a missed
+// close link on every run — noise that trains readers to ignore the section.
+assert.match(
+  skill,
+  /keeping only the numbers that resolve to an \*\*open issue\*\*/,
+  "om-close-fixed-issues: unmatched mentions must be resolved to open issues before reporting",
+);
+assert.match(
+  skill,
+  /Drop every number that resolves to a pull request/,
+  "om-close-fixed-issues: PR cross-references must not be reported as missed close links",
+);
+assert.match(
+  templates,
+  /Only numbers step 3 resolved to \*\*open issues\*\* appear here/,
+  "om-close-fixed-issues: the report template must state the open-issue filter",
+);
+// Diagnosis is not a mutation, so --dry-run must not suppress it.
+assert.match(
+  skill,
+  /The unmatched-mentions section from step 3 is diagnosis rather than a mutation/,
+  "om-close-fixed-issues: --dry-run must still print the unmatched-mentions section",
+);
 
 console.log("close-keyword contract OK");
