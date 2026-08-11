@@ -56,7 +56,43 @@ alone:
 | #1408 | #1260 | ⚠️ skipped | The issue was already closed before this run, so there was nothing to reconcile. |
 ```
 
+## Unmatched issue mentions (step 7 — print whenever step 3 recorded any)
+
+Append this section immediately after the per-pair table when step 3 recorded
+unmatched mentions: PRs in the window that mention `#N` but carry no close
+signal at all — empty `closingIssuesReferences` and no keyword from
+`$CLOSE_KEYWORDS`. These are never closed and never commented on; the section
+exists so the gap is **visible** instead of vanishing into a clean-looking
+`closed 0`:
+
+```markdown
+### ⚠️ Issue mentions without a recognized closing keyword
+
+| PR | Mentions | Why it was skipped |
+|----|----------|--------------------|
+| #1433 | #1401, #1402 | The PR body mentions both issues but contains no recognized close keyword, and the tracker returned no `closingIssuesReferences`, so this run had no authority to close either one. |
+| #1430 | #1399 | The only reference is a bare `#1399` mention, which this skill treats as conversational rather than as a close link. |
+
+The close-keyword vocabulary in effect for this run was the built-in English
+list plus {configuredCount} keyword(s) from `closeKeywords` in
+`.ai/agentic.config.json`. Both the tracker's own parser and the built-in list
+recognize English only, so a repository whose PR bodies are written in another
+language reports every PR here until the local phrasing is added — for example
+`"closeKeywords": ["zamyka", "naprawia"]`. Add the terms your team actually
+writes, then re-run; nothing in this section was mutated.
+```
+
+When `closeKeywords` is unset or empty, replace the "plus {configuredCount}
+keyword(s) from `closeKeywords`" clause with "with no `closeKeywords`
+configured in `.ai/agentic.config.json`" rather than printing `0 keyword(s)`;
+either way the reader learns the field exists and how to use it.
+
+## Counts and closing paragraph (step 7)
+
 Finish with the counts (`closed N`, `commented M`, `skipped K`,
-`dry-run-would-have X`) and a short paragraph in full sentences summarizing
-the run — the window processed, anything unusual (stale locks recovered,
-cross-repo references ignored), and whether a human needs to look at anything.
+`unmatched-mentions U`, `dry-run-would-have X`) and a short paragraph in full
+sentences summarizing the run — the window processed, anything unusual (stale
+locks recovered, cross-repo references ignored), and whether a human needs to
+look at anything. A run that closed nothing while `U` is non-zero must state
+that connection outright: the window was not quiet, the close links were simply
+unrecognizable.

@@ -288,7 +288,8 @@ Nothing here assumes JavaScript, or any particular product. The base branch, the
     "scripts": ".ai/scripts",
     "qa": ".ai/qa"
   },
-  "reviewChecklist": null
+  "reviewChecklist": null,
+  "closeKeywords": []
 }
 ```
 
