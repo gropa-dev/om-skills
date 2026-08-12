@@ -14,6 +14,14 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-08-11 — Close-keyword matching is configurable: new `closeKeywords` config key
+
+`om-close-fixed-issues` decided which issues a merged PR closes from two signals that are both English-only — the tracker's `closingIssuesReferences` parse, and a hard-coded `fix|fixes|fixed|close|closes|closed|resolve|resolves|resolved` regex. A repository whose PR bodies are written in another language (`Zamyka #88.`, `Naprawia #62.`) matched neither, so every run reported a clean `closed 0` and the issues stayed open until somebody noticed by hand.
+
+- **New optional config key `closeKeywords` (default `[]`).** A list of extra words that mark a PR as closing an issue. Configured words **extend** the built-in English list rather than replacing it, are matched case-insensitively and literally (each entry is regex-escaped), and only count immediately before a `#N` token — so `["zamyka", "naprawia"]` closes on `Zamyka #88` while leaving every existing English match untouched. Add the key to `.ai/agentic.config.json` by hand, or re-run `/om-setup-agent-pipeline`, which now writes it.
+- **Unmatched mentions are reported instead of dropped.** When a PR in the window mentions `#N` but carries no recognized close signal, the run lists it in a new ⚠️ section of the final report, names how many `closeKeywords` were in effect, and shows the config snippet that would fix it. The counts line gains `unmatched-mentions U`. Nothing about that section mutates the tracker — it is diagnosis only.
+- **Nothing to migrate on an English repository.** The key is additive and the built-in keywords are unchanged, so a config without it behaves exactly as before, minus the silence: a run that closes nothing now says whether the window was genuinely quiet or merely unparseable. No tracker operation, label, or parsed output format changed, and the "never close on a bare `#N` mention" rule still holds for every language.
+
 ## 2026-08-04 — Reporting no longer waits for CI: new `ci-monitoring` label and `ci.maxWaitMinutes`
 
 Skills used to treat "required checks green" as a precondition for posting the review, applying the labels, or marking a PR ready. On a repository whose CI runs 20 minutes to several hours that cost twice: the agent idled instead of finishing, and a monitoring process that died mid-wait left the PR **stranded** — still a draft, no labels, no review, no comment recording that any work had happened. All three pieces below fix that, and none of them relaxes a merge gate.

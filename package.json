@@ -14,6 +14,7 @@
     "lint": "scripts/lint.sh",
     "test:browser-providers": "node scripts/test-browser-providers.mjs",
     "test:classify-runs": "node scripts/test-classify-runs.mjs",
+    "test:close-keywords": "node scripts/test-close-keywords.mjs",
     "test:agent-browser-codex": "bash scripts/test-agent-browser-codex.sh"
   }
 }
