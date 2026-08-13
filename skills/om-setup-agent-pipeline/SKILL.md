@@ -126,7 +126,7 @@ Every skill in this collection checks, right after loading the config, for a rep
 
    Show each generated document to the user before writing. Never overwrite an existing process doc or agent instruction file — when one exists, skip it and note that the skills will use the existing file as-is.
 
-8. **Write and commit the config.** Write `.ai/agentic.config.json`, create the `paths.runs`, `paths.analysis`, `paths.specs`, `paths.scripts`, and `paths.qa` directories with a `.gitkeep` each, show the final file to the user, and offer to commit. Add `<paths.qa>/artifacts_*/` and the running-state descriptor `<paths.qa>/test-env.json` to `.gitignore` (generated per run, not source), while keeping the generated `<paths.scripts>/` launchers committed so the environment is reproducible:
+8. **Write and commit the config.** Write `.ai/agentic.config.json`, create the `paths.runs`, `paths.analysis`, `paths.specs`, `paths.scripts`, and `paths.qa` directories with a `.gitkeep` each, show the final file to the user, and offer to commit. Add `<paths.qa>/artifacts_*/`, the running-state descriptor `<paths.qa>/test-env.json`, and the credentials env file `<paths.qa>/test-env.env` to `.gitignore` (generated per run, not source), while keeping the generated `<paths.scripts>/` launchers committed so the environment is reproducible:
 
    ```bash
    git add .ai/agentic.config.json .ai/trackers/ .ai/browsers/ .ai/runs/.gitkeep .ai/analysis/.gitkeep .ai/specs/.gitkeep .ai/scripts/.gitkeep .ai/qa/.gitkeep SDLC.md

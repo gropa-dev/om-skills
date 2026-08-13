@@ -128,8 +128,10 @@ happens once, and its result is the script.
      done**. Do not re-verify what the script already health-checked. The
      descriptor is the deliverable: the script writes it on every successful
      run so consumers (`om-auto-qa-pr`, `om-integration-tests`) attach to the
-     same instance — full JSON schema, `startScript`/`platform` semantics, and
-     the no-real-secrets rule in `references/env-descriptor.md`.
+     same instance — full JSON schema, `startScript`/`platform` semantics, the
+     credential-reference contract (password values live in a gitignored env
+     file the agent never reads), and the no-real-secrets rule in
+     `references/env-descriptor.md`.
    - **Script fails** → do **not** silently boot the app by hand. Read the
      script's output, diagnose, and enter step 2 in **repair mode**: fix the
      script itself, re-run **the script** to prove the fix (never verify by

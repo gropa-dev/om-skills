@@ -14,6 +14,14 @@ against them — not against the copies shipped in this repo:
 | `SDLC.md`, `CODE_REVIEW.md`, `BACKWARD_COMPATIBILITY.md`, `AGENTS.md` starter | `om-setup-agent-pipeline` | Regenerated only when missing — edit or regenerate deliberately |
 | `.ai/skills/<name>/SKILL.md` repo-local overrides | you | Never touched by upgrades; review them against new skill behavior |
 
+## 2026-08-13 — test-env credentials become references: new `credentialsFile` + `passwordEnv`
+
+The environment descriptor recorded demo login values inline (`"password": "<demo>"`), and the QA/test skills read them into the agent's context to sign in — so even demo-grade secrets flowed through model output into commands, and anything that ended up in the descriptor was one quote away from a report. Security audits flagged exactly this path on `om-integration-tests`.
+
+- **The descriptor now carries references.** Each `credentials` entry names its password variable (`passwordEnv`, convention `TEST_<ROLE>_PASSWORD`); values live in `credentialsFile` — a gitignored `KEY=value` env file (default `<paths.qa>/test-env.env`) the generated environment script writes alongside the descriptor. Consumers load the file into the shell (`set -a; . "$CREDENTIALS_FILE"; set +a`) and write `"$TEST_ADMIN_PASSWORD"` literally in login/API commands; the shell expands the value, the agent never reads the file and never learns it. Affected skills: `om-prepare-test-env` (writer), `om-integration-tests` and `om-auto-qa-pr` (consumers), `om-setup-agent-pipeline` (gitignore line).
+- **Legacy descriptors keep working.** An older `test-env.json` with inline `"password"` values is still consumed — values pass through the runner's environment, never quoted back — and the next `om-prepare-test-env` run or descriptor repair migrates it to references. New writers never emit inline passwords.
+- **Migration:** regenerate the environment scripts by re-running `/om-prepare-test-env` (the old `test-env.json` is per-run state; it is rewritten on the next successful run), and add `<paths.qa>/test-env.env` to `.gitignore` — re-running `/om-setup-agent-pipeline` adds it, and the generated script re-adds the entry when missing.
+
 ## 2026-08-11 — Close-keyword matching is configurable: new `closeKeywords` config key
 
 `om-close-fixed-issues` decided which issues a merged PR closes from two signals that are both English-only — the tracker's `closingIssuesReferences` parse, and a hard-coded `fix|fixes|fixed|close|closes|closed|resolve|resolves|resolved` regex. A repository whose PR bodies are written in another language (`Zamyka #88.`, `Naprawia #62.`) matched neither, so every run reported a clean `closed 0` and the issues stayed open until somebody noticed by hand.
