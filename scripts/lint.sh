@@ -197,5 +197,6 @@ python3 scripts/test-dependency-audit.py || exit 1
 node scripts/test-osv-scan.mjs || exit 1
 
 node scripts/test-pr-titles.mjs || exit 1
+node scripts/test-bump-agent-browser.mjs || exit 1
 
 echo "Lint OK."
