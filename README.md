@@ -8,7 +8,7 @@
 
 <p align="center">
   <b>🧠 plan · 🔨 implement · 🔍 review · ✅ QA gate · 🚢 merge</b><br/>
-  Fifty-nine agent skills that run a full PR pipeline. Install them into any repo, with any coding agent.
+  Sixty agent skills that run a full PR pipeline. Install them into any repo, with any coding agent.
 </p>
 
 <p align="center">
@@ -26,7 +26,7 @@ These skills wrote and shipped a real product. Inside the [Open Mercato](https:/
 npx skills add open-mercato/skills --skill '*'
 ```
 
-Install all fifty-nine — the pipeline composes, and every skill is small until invoked. Drop `--skill '*'` to cherry-pick interactively. Skills install for 22+ coding agents (Claude Code, Cursor, Codex, and others) via [skills.sh](https://skills.sh).
+Install all sixty — the pipeline composes, and every skill is small until invoked. Drop `--skill '*'` to cherry-pick interactively. Skills install for 22+ coding agents (Claude Code, Cursor, Codex, and others) via [skills.sh](https://skills.sh).
 
 Then, once per repository:
 
@@ -156,6 +156,7 @@ flowchart LR
 | [`om-close-fixed-issues`](docs/skills/om-close-fixed-issues.md) | Post-merge housekeeping sweep: closes issues that merged PRs fix, comments on issues whose PRs were closed without merging. |
 | [`om-auto-sec-report-pr`](docs/skills/om-auto-sec-report-pr.md) | Paranoid OWASP-style security analysis of one PR, spec, or branch diff: severity-ranked findings, non-obvious attack vectors beyond the Top 10, same-pattern hotspots elsewhere, and "go deeper" follow-up runs. The target stays read-only; the report stays local by default (or ships as a docs-only PR when configured), with live exploitable findings withheld for private disclosure and exploit detail never published. Your repo's hotspots come from a configurable security checklist. |
 | [`om-auto-sec-report`](docs/skills/om-auto-sec-report.md) | Security report over a window — PRs merged since a date or PR number (default: last 7 days), or one branch or spec. Runs [`om-auto-sec-report-pr`](docs/skills/om-auto-sec-report-pr.md) per unit, then aggregates the findings, an OWASP risk heatmap, and one deduplicated "go deeper" list into a single redacted report, kept local by default or shipped as a docs-only PR. |
+| [`om-auto-audit-dependencies`](docs/skills/om-auto-audit-dependencies.md) | Scheduled-safe dependency audit for any ecosystem: reads every tracked lockfile, uses the native audit tool where one exists and the OSV advisory database otherwise (so Dart/Flutter, Go, Ruby, Python, and Rust projects are covered, not only npm), computes the smallest upgrade that clears every advisory at or above the threshold, and files one deduplicated issue per vulnerable package with that upgrade path — updated in place on later runs. Never edits manifests or lockfiles, and never reports a silent zero: ecosystems it could not scan are named. |
 
 ### 🧑‍💻 Interactive skills
 

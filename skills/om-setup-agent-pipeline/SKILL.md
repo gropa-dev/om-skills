@@ -47,15 +47,13 @@ Write `.ai/agentic.config.json` for the collection. Run this setup first in a fr
   "designTokens": null,
   "reviewChecklist": null,
   "closeKeywords": [],
+  "dependencyAudit": { "minSeverity": "high", "ignore": [] },
   "prTitleTemplate": "{prefix}({area}): {summary}{issueRef}",
   "ticketKeyPattern": ""
 }
 ```
 
-Field reference:
-
-Optional capability fields, defaults, owners, and loading snippets:
-`references/config-capabilities.md`.
+Field defaults: `references/config-capabilities.md`.
 
 - `baseBranch` — the branch PRs target. `"auto"` means resolve at runtime from the repository's default branch; set an explicit name only when PRs target something else.
 - `tracker` — selects `.ai/trackers/<tracker>.md`. Shipped values are `"github"`, `"gitlab"`, `"linear"` (Linear issues + GitHub PRs/CI), and `"jira"` (Jira Cloud issues + GitHub PRs/CI); see Tracker providers below.
